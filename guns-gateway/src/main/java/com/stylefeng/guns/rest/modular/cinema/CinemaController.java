@@ -22,6 +22,8 @@ public class CinemaController {
 
     @RequestMapping("/getFields")
     public BaseCinemaRespVo getFields(int cinemaId) {
-        return BaseCinemaRespVo.ok(cinemaService.getFields(cinemaId));
+        BaseCinemaRespVo respVo = BaseCinemaRespVo.ok(cinemaService.getFields(cinemaId));
+        respVo.setImgPre("http://img.meetingshop.cn/");
+        return respVo;
     }
 }
