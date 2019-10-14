@@ -19,4 +19,9 @@ public class CinemaController {
     public BaseCinemaRespVo getCondition(ConditionVo conditionVo) {
         return BaseCinemaRespVo.ok(cinemaService.getCodition(conditionVo.getBrandId(), conditionVo.getHallType(), conditionVo.getAreaId()));
     }
+
+    @RequestMapping("/getFields")
+    public BaseCinemaRespVo getFields(int cinemaId) {
+        return BaseCinemaRespVo.ok(cinemaService.getFields(cinemaId));
+    }
 }
