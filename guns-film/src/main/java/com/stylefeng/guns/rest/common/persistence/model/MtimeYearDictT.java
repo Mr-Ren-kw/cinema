@@ -13,7 +13,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author dongmingzhe
- * @since 2019-10-12
+ * @since 2019-10-15
  */
 @TableName("mtime_year_dict_t")
 public class MtimeYearDictT extends Model<MtimeYearDictT> {
