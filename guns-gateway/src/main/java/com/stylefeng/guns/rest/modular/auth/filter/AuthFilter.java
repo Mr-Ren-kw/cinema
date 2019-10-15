@@ -10,6 +10,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.filter.OncePerRequestFilter;
+import redis.clients.jedis.Jedis;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -33,6 +34,9 @@ public class AuthFilter extends OncePerRequestFilter {
     @Autowired
     private JwtProperties jwtProperties;
 
+    @Autowired
+    private Jedis jedis;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         if (request.getServletPath().equals("/" + jwtProperties.getAuthPath())) {
@@ -45,14 +49,22 @@ public class AuthFilter extends OncePerRequestFilter {
             authToken = requestHeader.substring(7);
 
             //验证token是否过期,包含了验证jwt是否正确
-            try {
-                boolean flag = jwtTokenUtil.isTokenExpired(authToken);
-                if (flag) {
-                    RenderUtil.renderJson(response, new ErrorTip(BizExceptionEnum.TOKEN_EXPIRED.getCode(), BizExceptionEnum.TOKEN_EXPIRED.getMessage()));
-                    return;
-                }
-            } catch (JwtException e) {
-                //有异常就是token解析失败
+//            try {
+//                boolean flag = jwtTokenUtil.isTokenExpired(authToken);
+//                if (flag) {
+//                    RenderUtil.renderJson(response, new ErrorTip(BizExceptionEnum.TOKEN_EXPIRED.getCode(), BizExceptionEnum.TOKEN_EXPIRED.getMessage()));
+//                    return;
+//                }
+                // 不用验证token的过期时间，以redis中的过期时间为准。只需要判断token是否正确
+//                jwtTokenUtil.parseToken(authToken);
+//            } catch (JwtException e) {
+//                //有异常就是token解析失败
+//                RenderUtil.renderJson(response, new ErrorTip(BizExceptionEnum.TOKEN_ERROR.getCode(), BizExceptionEnum.TOKEN_ERROR.getMessage()));
+//                return;
+//            }
+            // 判断是否有对应的userId
+            String userIdStr = jedis.get(authToken);
+            if (userIdStr == null) {
                 RenderUtil.renderJson(response, new ErrorTip(BizExceptionEnum.TOKEN_ERROR.getCode(), BizExceptionEnum.TOKEN_ERROR.getMessage()));
                 return;
             }
