@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class UserController {
-    @Reference(interfaceClass = UserService.class)
+    @Reference(interfaceClass = UserService.class,check = false)
     UserService userService;
 
     @RequestMapping("/test")
