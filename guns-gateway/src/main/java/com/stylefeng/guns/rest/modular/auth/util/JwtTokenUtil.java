@@ -5,7 +5,9 @@ import com.stylefeng.guns.rest.config.properties.JwtProperties;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import redis.clients.jedis.Jedis;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,6 +33,9 @@ public class JwtTokenUtil {
 
     @Autowired
     private JwtProperties jwtProperties;
+
+    @Autowired
+    Jedis jedis;
 
     /**
      * 获取用户名从token中
@@ -136,5 +141,18 @@ public class JwtTokenUtil {
      */
     public String getRandomKey() {
         return ToolUtil.getRandomString(6);
+    }
+
+    public int parseToken(HttpServletRequest request) {
+        final String requestHeader = request.getHeader(jwtProperties.getHeader());
+        String authToken = requestHeader.substring(7); // token:xxx:yyy:zzz
+        String uuid = jedis.get(authToken);
+        return Integer.parseInt(uuid);
+    }
+
+    public String getToken(HttpServletRequest request) {
+        final String requestHeader = request.getHeader(jwtProperties.getHeader());
+        String authToken = requestHeader.substring(7); // token:xxx:yyy:zzz
+        return authToken;
     }
 }
