@@ -1,4 +1,6 @@
-package com.stylefeng.guns.rest.modular.auth.validator.dto;
+package com.stylefeng.guns.rest.user.validator;
+
+import java.io.Serializable;
 
 /**
  * 验证的凭据
@@ -6,7 +8,7 @@ package com.stylefeng.guns.rest.modular.auth.validator.dto;
  * @author fengshuonan
  * @date 2017-08-27 13:27
  */
-public interface Credence {
+public interface Credence extends Serializable {
 
     /**
      * 凭据名称
