@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.stylefeng.guns.rest.modular.auth.util.JwtTokenUtil;
 import com.stylefeng.guns.rest.order.OrderService;
 import com.stylefeng.guns.rest.order.vo.BuyTicketsVo;
+import com.stylefeng.guns.rest.order.vo.OrderData;
 import com.stylefeng.guns.rest.order.vo.OrderRespVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +27,7 @@ public class OrderController {
         int userId = jwtTokenUtil.parseToken(request);
         int fieldId = buyTicketsVo.getFieldId();
         String soldSeats = buyTicketsVo.getSoldSeats();
-        OrderRespVo orderRespVo = new OrderRespVo();
+        OrderRespVo<OrderData> orderRespVo = new OrderRespVo<>();
         // 先判断要出售的票是否为真
         boolean flag = orderService.isTrueSeats(fieldId, soldSeats);
         if (!flag) {
@@ -38,6 +39,8 @@ public class OrderController {
             return OrderRespVo.fail(orderRespVo);
         }
         // 出售座位，创建订单信息
-        orderService.saveOrderInfo(fieldId,)
+        OrderData orderData = orderService.saveOrderInfo(fieldId, soldSeats, buyTicketsVo.getSeatsName(), userId);
+        orderRespVo.setData(orderData);
+        return orderRespVo;
     }
 }
