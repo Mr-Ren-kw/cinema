@@ -8,4 +8,7 @@
         <result column="show_name" property="showName" />
     </resultMap>
 
+    <select id="getAreaList" resultType="com.stylefeng.guns.rest.common.persistence.model.codition.Area">
+        select UUID as areaId,show_name as areaName from mtime_area_dict_t
+    </select>
 </mapper>

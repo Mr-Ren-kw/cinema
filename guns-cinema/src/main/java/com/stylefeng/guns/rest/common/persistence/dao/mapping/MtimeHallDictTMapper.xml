@@ -9,4 +9,7 @@
         <result column="seat_address" property="seatAddress" />
     </resultMap>
 
+    <select id="getHallList" resultType="com.stylefeng.guns.rest.common.persistence.model.codition.HallType">
+        select UUID as halltypeId,show_name as halltypeName from mtime_hall_dict_t
+    </select>
 </mapper>

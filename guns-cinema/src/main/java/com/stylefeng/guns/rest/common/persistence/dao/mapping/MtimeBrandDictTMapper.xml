@@ -8,4 +8,7 @@
         <result column="show_name" property="showName" />
     </resultMap>
 
+    <select id="getBrandList" resultType="com.stylefeng.guns.rest.common.persistence.model.codition.Brand">
+        select UUID as brandId,show_name as brandName from mtime_brand_dict_t
+    </select>
 </mapper>

@@ -14,4 +14,18 @@
         <result column="img_address" property="imgAddress" />
     </resultMap>
 
+  <select id="selectFilmInfoByFilmId" resultMap="filmMapper">
+      select film_id,film_name,film_length,film_cats,film_language,actors,img_address from mtime_hall_film_info_t
+      where film_id = #{filmId}
+  </select>
+    <resultMap id="filmMapper" type="com.stylefeng.guns.rest.common.persistence.model.field.Film">
+        <result column="film_id" property="filmId"/>
+        <result column="film_name" property="filmName"/>
+        <result column="film_length" property="filmLength"/>
+        <result column="film_cats" property="filmCats"/>
+        <result column="film_language" property="filmType"/>
+        <result column="actors" property="actors"/>
+        <result column="img_address" property="imgAddress"/>
+    </resultMap>
+
 </mapper>
