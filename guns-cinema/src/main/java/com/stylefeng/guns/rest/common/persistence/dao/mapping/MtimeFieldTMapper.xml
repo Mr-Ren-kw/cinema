@@ -22,5 +22,14 @@
         select UUID as fieldId,begin_time as beginTime,end_time as endTime,hall_name as hallName,price from mtime_field_t
         where cinema_id = #{cinemaId} and film_Id = #{filmId}
     </select>
+  <select id="selectHallIdByFieldId" resultType="int">
+      select hall_id from mtime_field_t where UUID = #{fieldId}
+  </select>
+  <select id="selectFieldMsgById" resultType="com.stylefeng.guns.rest.cinema.vo.FieldMsgForOrder">
+      select cinema_id as cinemaId,film_id as filmId,price from mtime_field_t where UUID = #{fieldId}
+  </select>
+  <select id="getFieldTimeById" resultType="java.lang.String">
+    select begin_time from mtime_field_t where UUID = #{fieldId}
+  </select>
 
 </mapper>

@@ -12,4 +12,7 @@
     <select id="getHallList" resultType="com.stylefeng.guns.rest.common.persistence.model.codition.HallType">
         select UUID as halltypeId,show_name as halltypeName from mtime_hall_dict_t
     </select>
+  <select id="getSeatAddressById" resultType="java.lang.String">
+      select seat_address from mtime_hall_dict_t where UUID = #{hallId}
+  </select>
 </mapper>

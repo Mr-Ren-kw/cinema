@@ -8,4 +8,6 @@ public interface FilmService {
     IndexData getIndex();
 
     ConditionData getFilmCondition(FilmConditionVo filmConditionVo);
+    // 根据id获取电影名称
+    String getFilmNameById(int filmId);
 }

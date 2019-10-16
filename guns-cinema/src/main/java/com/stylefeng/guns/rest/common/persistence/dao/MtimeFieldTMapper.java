@@ -1,5 +1,6 @@
 package com.stylefeng.guns.rest.common.persistence.dao;
 
+import com.stylefeng.guns.rest.cinema.vo.FieldMsgForOrder;
 import com.stylefeng.guns.rest.common.persistence.model.MtimeFieldT;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.stylefeng.guns.rest.common.persistence.model.field.FilmField;
@@ -20,4 +21,10 @@ public interface MtimeFieldTMapper extends BaseMapper<MtimeFieldT> {
     List<Integer> selectFilmIdListByCinemaId(@Param("cinemaId") int cinemaId);
     // 通过cinemaId和filmId查询对应的field
     List<FilmField> selectFieldListByCinemaIdAndFilmId(@Param("cinemaId") int cinemaId,@Param("filmId") int filmId);
+    // 通过fieldId获取hallId
+    int selectHallIdByFieldId(@Param("fieldId") int fieldId);
+    // 通过fieldId查询部分信息
+    FieldMsgForOrder selectFieldMsgById(@Param("fieldId") int fieldId);
+    // 通过fieldId获取场次的开始时间
+    String getFieldTimeById(@Param("fieldId") int fieldId);
 }

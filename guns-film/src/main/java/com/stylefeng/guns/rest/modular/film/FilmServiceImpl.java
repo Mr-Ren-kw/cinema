@@ -125,4 +125,9 @@ public class FilmServiceImpl implements FilmService{
         data.setYearInfo(yearInfo);
         return data;
     }
+
+    @Override
+    public String getFilmNameById(int filmId) {
+        return mtimeFilmTMapper.getFilmNameById(filmId);
+    }
 }

@@ -9,7 +9,7 @@
     <packaging>jar</packaging>
 
     <name>guns-order</name>
-    <description>guns REST服务器</description>
+    <description>guns 订单服务器</description>
 
     <parent>
         <groupId>com.stylefeng</groupId>
@@ -61,6 +61,11 @@
             <artifactId>lombok</artifactId>
             <version>1.16.20</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>2.9.0</version>
         </dependency>
     </dependencies>
 

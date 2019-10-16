@@ -28,7 +28,7 @@ mybatis-plus:
 
 spring:
   application:
-    name: guns-cinema
+    name: guns-order
   dubbo:
     protocol:
       name: dubbo
