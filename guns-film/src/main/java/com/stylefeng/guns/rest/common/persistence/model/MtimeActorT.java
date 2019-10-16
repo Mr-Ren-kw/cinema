@@ -12,7 +12,6 @@ import java.io.Serializable;
  * 演员表
  * </p>
  *
- * @author stylefeng
  * @since 2019-10-15
  */
 @TableName("mtime_actor_t")

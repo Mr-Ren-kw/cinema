@@ -12,8 +12,6 @@ import java.io.Serializable;
  * 年代信息表
  * </p>
  *
- * @author stylefeng
- * @since 2019-10-14
  */
 @TableName("mtime_year_dict_t")
 public class MtimeYearDictT extends Model<MtimeYearDictT> {

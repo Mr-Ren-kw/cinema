@@ -3,7 +3,9 @@ package com.stylefeng.guns.rest.film;
 import com.stylefeng.guns.rest.film.vo.FilmQueryByIdVO;
 import com.stylefeng.guns.rest.film.vo.FilmsConditionVo;
 import com.stylefeng.guns.rest.film.vo.FilmInfoVo;
-
+import com.stylefeng.guns.rest.film.vo.ConditionData;
+import com.stylefeng.guns.rest.film.vo.FilmConditionVo;
+import com.stylefeng.guns.rest.film.vo.IndexData;
 import java.util.List;
 
 /**
@@ -21,4 +23,9 @@ public interface FilmService {
     List<FilmInfoVo> getFilms(FilmsConditionVo filmsConditionVo);
 
     FilmQueryByIdVO queryFilmById(Integer filmId);
+
+    IndexData getIndex();
+
+    ConditionData getFilmCondition(FilmConditionVo filmConditionVo);
+
 }

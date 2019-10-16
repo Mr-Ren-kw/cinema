@@ -11,7 +11,6 @@ import com.baomidou.mybatisplus.generator.config.rules.DbColumnType;
 import com.baomidou.mybatisplus.generator.config.rules.DbType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import org.junit.Test;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,7 +34,7 @@ public class EntityGenerator {
         gc.setEnableCache(false);// XML 二级缓存
         gc.setBaseResultMap(true);// XML ResultMap
         gc.setBaseColumnList(false);// XML columList
-        gc.setAuthor("stylefeng");
+        gc.setAuthor("dongmingzhe");
         mpg.setGlobalConfig(gc);
 
         // 数据源配置
@@ -58,7 +57,7 @@ public class EntityGenerator {
         StrategyConfig strategy = new StrategyConfig();
         //strategy.setTablePrefix(new String[]{"_"});// 此处可以修改为您的表前缀
         strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
-        strategy.setInclude(new String[]{"mtime_film_actor_t","mtime_actor_t"});
+        strategy.setInclude(new String[]{"mtime_banner_t", "mtime_cat_dict_t", "mtime_source_dict_t", "mtime_year_dict_t", "mtime_film_t", "mtime_film_info_t", "mtime_actor_t", "mtime_film_actor_t"});
         mpg.setStrategy(strategy);
 
         // 包配置

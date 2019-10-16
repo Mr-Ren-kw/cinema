@@ -8,8 +8,6 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  * 年代信息表 Mapper 接口
  * </p>
  *
- * @author stylefeng
- * @since 2019-10-14
  */
 public interface MtimeYearDictTMapper extends BaseMapper<MtimeYearDictT> {
 

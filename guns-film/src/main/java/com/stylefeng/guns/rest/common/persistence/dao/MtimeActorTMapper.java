@@ -8,7 +8,6 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  * 演员表 Mapper 接口
  * </p>
  *
- * @author stylefeng
  * @since 2019-10-15
  */
 public interface MtimeActorTMapper extends BaseMapper<MtimeActorT> {

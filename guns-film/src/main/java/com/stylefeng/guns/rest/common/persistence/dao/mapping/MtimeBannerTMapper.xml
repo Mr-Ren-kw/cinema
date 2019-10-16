@@ -9,5 +9,8 @@
         <result column="banner_url" property="bannerUrl" />
         <result column="is_valid" property="isValid" />
     </resultMap>
+    <select id="queryList" resultType="com.stylefeng.guns.rest.common.persistence.model.Banner">
+        select UUID as bannerId,banner_address as bannerAddress,banner_url as bannerUrl from mtime_banner_t where is_valid = 0
+    </select>
 
 </mapper>

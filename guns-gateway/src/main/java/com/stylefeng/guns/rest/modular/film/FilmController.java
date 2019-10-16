@@ -20,9 +20,17 @@ import java.util.List;
  * @version 1.0
  * @date 2019/10/15 0:12
  */
+import com.stylefeng.guns.rest.film.vo.*;
+import com.stylefeng.guns.rest.modular.film.vo.BaseFilmResponseVo;
+import com.stylefeng.guns.rest.film.vo.FilmConditionVo;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+
 @RestController
 @RequestMapping("/film")
 public class FilmController {
+
 
     @Reference(interfaceClass = FilmService.class,check = false)
     FilmService filmService;
@@ -46,12 +54,30 @@ public class FilmController {
     }
 
     @GetMapping("/films/{filmId}")
-    public BaseFilmResponseVo queryFilmById(@PathVariable("filmId") Integer filmId){
+    public BaseFilmResponseVo queryFilmById(@PathVariable("filmId") Integer filmId) {
         FilmQueryByIdVO filmQueryByIdVO = filmService.queryFilmById(filmId);
         BaseFilmResponseVo baseFilmResponseVo = new BaseFilmResponseVo();
         baseFilmResponseVo.setStatus(0);
         baseFilmResponseVo.setImgPre("http://img.meetingshop.cn/");
         baseFilmResponseVo.setData(filmQueryByIdVO);
         return baseFilmResponseVo;
+    }
+    @RequestMapping("/getIndex")
+    public BaseFilmResponseVo getIndex() {
+        BaseFilmResponseVo<IndexData> response = new BaseFilmResponseVo<>();
+        IndexData indexData = filmService.getIndex();
+        response.setData(indexData);
+        response.setImgPre("http://img.meetingshop.cn/");
+        response.setStatus(0);
+        return response;
+    }
+
+    @RequestMapping("/getConditionList")
+    public BaseFilmResponseVo getConditionList(FilmConditionVo filmConditionVo) {
+        BaseFilmResponseVo<ConditionData> response = new BaseFilmResponseVo<>();
+        ConditionData conditionData = filmService.getFilmCondition(filmConditionVo);
+        response.setData(conditionData);
+        response.setStatus(0);
+        return response;
     }
 }

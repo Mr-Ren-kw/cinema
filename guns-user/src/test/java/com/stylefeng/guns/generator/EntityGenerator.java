@@ -29,13 +29,13 @@ public class EntityGenerator {
 
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
-        gc.setOutputDir("D:\\tmp\\guns\\guns-rest\\src\\main\\java");//这里写你自己的java目录
+        gc.setOutputDir("/home/yyt/Spring_Cinema/cinema/guns-user/src/main/java");//这里写你自己的java目录
         gc.setFileOverride(true);//是否覆盖
         gc.setActiveRecord(true);
         gc.setEnableCache(false);// XML 二级缓存
         gc.setBaseResultMap(true);// XML ResultMap
         gc.setBaseColumnList(false);// XML columList
-        gc.setAuthor("stylefeng");
+        gc.setAuthor("yyt");
         mpg.setGlobalConfig(gc);
 
         // 数据源配置
@@ -50,15 +50,15 @@ public class EntityGenerator {
         });
         dsc.setDriverName("com.mysql.jdbc.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("root");
-        dsc.setUrl("jdbc:mysql://127.0.0.1:3306/rest?characterEncoding=utf8");
+        dsc.setPassword("123456");
+        dsc.setUrl("jdbc:mysql://127.0.0.1:3306/guns_rest?characterEncoding=utf8");
         mpg.setDataSource(dsc);
 
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
         //strategy.setTablePrefix(new String[]{"_"});// 此处可以修改为您的表前缀
         strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
-        strategy.setInclude(new String[]{"user"});
+        strategy.setInclude("mtime_user_t");
         mpg.setStrategy(strategy);
 
         // 包配置
