@@ -3,10 +3,9 @@ package com.stylefeng.guns.rest.modular.order;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.stylefeng.guns.rest.modular.auth.util.JwtTokenUtil;
 import com.stylefeng.guns.rest.order.OrderService;
-import com.stylefeng.guns.rest.order.vo.BuyTicketsVo;
-import com.stylefeng.guns.rest.order.vo.OrderData;
-import com.stylefeng.guns.rest.order.vo.OrderRespVo;
+import com.stylefeng.guns.rest.order.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,6 +40,27 @@ public class OrderController {
         // 出售座位，创建订单信息
         OrderData orderData = orderService.saveOrderInfo(fieldId, soldSeats, buyTicketsVo.getSeatsName(), userId);
         orderRespVo.setData(orderData);
+        return orderRespVo;
+    }
+
+    @RequestMapping("/getPayResult")
+    public OrderRespVo getPayResult(@RequestBody OrderResultVO orderResultVO){
+        Integer tryNums = orderResultVO.getTryNums();
+        if (tryNums < 4){
+            // 没超时
+            OrderResultResponseVO payResult = orderService.getPayResult(orderResultVO.getOrderId());
+            if (payResult.getOrderStatus() == 1) {
+                // 查询到订单状态是1，支付成功
+                OrderRespVo orderRespVo = new OrderRespVo();
+                orderRespVo.setData(payResult);
+                orderRespVo.setStatus(1);
+                orderRespVo.setMsg("支付成功");
+                return orderRespVo;
+            }
+        }
+        OrderRespVo orderRespVo = new OrderRespVo();
+        orderRespVo.setStatus(1);
+        orderRespVo.setMsg("订单支付失败，请稍后重试");
         return orderRespVo;
     }
 }
