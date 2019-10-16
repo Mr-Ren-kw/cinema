@@ -124,9 +124,17 @@ public class FilmServiceImpl implements FilmService {
 
         filmQueryByIdVO.setScore(mtimeFilmT.getFilmScore());    // score
 
-        filmQueryByIdVO.setScoreNum(String.valueOf(mtimeFilmInfoT2.getFilmScoreNum())); // scoreNum
+        filmQueryByIdVO.setScoreNum(mtimeFilmInfoT2.getFilmScoreNum() + "万人评分"); // scoreNum
 
-        filmQueryByIdVO.setTotalBox(String.valueOf(mtimeFilmT.getFilmBoxOffice())); // totalBox
+        // 这边要判断是万还是亿
+        Integer filmBoxOffice = mtimeFilmT.getFilmBoxOffice();
+        if (filmBoxOffice < 10000){
+            filmQueryByIdVO.setTotalBox(filmBoxOffice + " 万"); // totalBox
+        }else{
+            Integer fbo = filmBoxOffice/10000;
+            filmQueryByIdVO.setTotalBox(fbo + " 亿");
+        }
+
 
         MtimeHallFilmInfoT mtimeHallFilmInfoT = new MtimeHallFilmInfoT();
         mtimeHallFilmInfoT.setFilmId(filmId);
