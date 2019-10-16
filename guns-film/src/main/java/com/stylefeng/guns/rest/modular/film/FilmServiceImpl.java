@@ -147,7 +147,7 @@ public class FilmServiceImpl implements FilmService {
         filmQueryByIdVO.setInfo02(info02);  // info2
 
         String info03;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         info03 = sdf.format( mtimeFilmT.getFilmTime() );
         info03 = info03 + " " + mtimeSourceDictT.getShowName() + "上映";
         filmQueryByIdVO.setInfo03(info03);  // info03
