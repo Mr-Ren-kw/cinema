@@ -46,7 +46,7 @@ public class AuthController {
             final String randomKey = jwtTokenUtil.getRandomKey();
             final String token = jwtTokenUtil.generateToken(authRequest.getUserName(), randomKey);
             jedis.set(token, String.valueOf(uuid));
-            jedis.expire(token, redisProperties.getExpireTime());
+            jedis.expire(token, redisProperties.getExpiration());
             return new BaseRespVo(new AuthResponse(token, randomKey), 0);
         } else {
             throw new GunsException(BizExceptionEnum.AUTH_REQUEST_ERROR);

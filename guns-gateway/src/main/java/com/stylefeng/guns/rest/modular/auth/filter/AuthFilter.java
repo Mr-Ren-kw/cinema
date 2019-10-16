@@ -66,7 +66,7 @@ public class AuthFilter extends OncePerRequestFilter {
                 throw new GunsException(GunsExceptionEnum.TOKEN_EXPIRE);
             } else {
                 // 刷新用户缓存时间
-                jedis.expire(authToken, redisProperties.getExpireTime());
+                jedis.expire(authToken, redisProperties.getExpiration());
             }
 //            //验证token是否过期,包含了验证jwt是否正确
 //            try {
