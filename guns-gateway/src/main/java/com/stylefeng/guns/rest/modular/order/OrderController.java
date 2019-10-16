@@ -24,6 +24,20 @@ public class OrderController {
     @RequestMapping("/buyTickets")
     public OrderRespVo buyTickets(BuyTicketsVo buyTicketsVo, HttpServletRequest request) {
         int userId = jwtTokenUtil.parseToken(request);
-        return orderService.buyTickets(userId,buyTicketsVo);
+        int fieldId = buyTicketsVo.getFieldId();
+        String soldSeats = buyTicketsVo.getSoldSeats();
+        OrderRespVo orderRespVo = new OrderRespVo();
+        // 先判断要出售的票是否为真
+        boolean flag = orderService.isTrueSeats(fieldId, soldSeats);
+        if (!flag) {
+            return OrderRespVo.fail(orderRespVo);
+        }
+        // 判断座位是否已被售出
+        flag = orderService.isNotSoldSeats(fieldId,soldSeats);
+        if (!flag) {
+            return OrderRespVo.fail(orderRespVo);
+        }
+        // 出售座位，创建订单信息
+        orderService.saveOrderInfo(fieldId,)
     }
 }

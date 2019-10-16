@@ -10,4 +10,10 @@ public class OrderRespVo<T> implements Serializable {
     private int status;
     private String msg;
     private T data;
+
+    public static OrderRespVo fail(OrderRespVo orderRespVo) {
+        orderRespVo.setStatus(1);
+        orderRespVo.setMsg("该订单不存在");
+        return orderRespVo;
+    }
 }
