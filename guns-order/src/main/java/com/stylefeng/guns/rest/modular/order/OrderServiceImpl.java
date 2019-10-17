@@ -90,6 +90,9 @@ public class OrderServiceImpl implements OrderService {
     public boolean isNotSoldSeats(int fieldId, String seats) {
         // 先去order表中查询该场次已售的座位号
         List<String> soldSeatList = orderTMapper.getSoldSeatList(fieldId);
+        if (soldSeatList == null || soldSeatList.size() == 0) {
+            return true;
+        }
         // 将所有座位放到一个list中
         List<String> seatList = new LinkedList<>();
         String[] split = null;
@@ -153,12 +156,23 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public String getSoldSeats(int fieldId) {
         List<String> soldSeats = orderTMapper.getSoldSeatList(fieldId);
-        StringBuffer stringBuffer = new StringBuffer();
-        for (String soldSeat : soldSeats) {
-            stringBuffer.append(soldSeat).append(",");
+        if (soldSeats == null) {
+            return "";
         }
-        String string = stringBuffer.toString();
-        return string.substring(0, string.length() - 1);
+        int size = soldSeats.size();
+        if (size == 1) {
+            return soldSeats.get(1);
+        }
+        StringBuffer stringBuffer = new StringBuffer();
+
+        for (int i = 0; i < size; i++) {
+            if (i != size - 1) {
+                stringBuffer.append(soldSeats.get(i)).append(",");
+            } else {
+                stringBuffer.append(soldSeats.get(i));
+            }
+        }
+        return stringBuffer.toString();
     }
 
     @Override
