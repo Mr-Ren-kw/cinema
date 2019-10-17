@@ -215,7 +215,7 @@ public class FilmServiceImpl implements FilmService {
         }
         filmQueryByIdVO.setFilmId(String.valueOf(filmId));
         filmDetail.setImgVO(filmImgVO); // filmDetail-ImgVO
-        filmQueryByIdVO.setImgVO(filmImgVO);    // imgVO
+        // filmQueryByIdVO.setImgVO(filmImgVO);    // imgVO
         filmQueryByIdVO.setInfo04(filmDetail);   // info4
         return filmQueryByIdVO;
     }
