@@ -8,6 +8,7 @@ import com.stylefeng.guns.rest.common.persistence.dao.*;
 import com.stylefeng.guns.rest.common.persistence.model.*;
 import com.stylefeng.guns.rest.film.FilmService;
 import com.stylefeng.guns.rest.film.vo.*;
+import lombok.experimental.var;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -199,9 +200,17 @@ public class FilmServiceImpl implements FilmService {
         filmQueryByIdVO.setInfo4(filmDetail);   // info4
 
         FilmImgVO filmImgVO = new FilmImgVO();
-        filmImgVO.setMainImg(mtimeHallFilmInfoT1.getImgAddress());
-        // 其他四个图不知道在哪里
-
+        // filmImgVO.setMainImg(mtimeHallFilmInfoT1.getImgAddress());
+        // 其他四个图不知道在哪里（找到了，在mtimeFilmInfoT的film_imgs里）上面这句有问题，五个图都在film_imgs里
+        String[] split = mtimeFilmInfoT2.getFilmImgs().split(",");
+        // 必须保证图片在放进去的时候有五张，不然一张都不会显示
+        if(split.length >= 5) {
+            filmImgVO.setMainImg(split[0]);
+            filmImgVO.setImg01(split[1]);
+            filmImgVO.setImg02(split[2]);
+            filmImgVO.setImg03(split[3]);
+            filmImgVO.setImg04(split[4]);
+        }
         filmQueryByIdVO.setFilmId(String.valueOf(filmId));
         return filmQueryByIdVO;
     }
