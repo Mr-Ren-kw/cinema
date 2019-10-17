@@ -174,6 +174,7 @@ public class FilmServiceImpl implements FilmService {
 
         FilmDetail filmDetail = new FilmDetail();
         filmDetail.setBiopgraphy(mtimeFilmInfoT2.getBiography()); // biography
+        filmDetail.setFilmId(String.valueOf(filmId));   //  应该放在这里，之前放错地方了
         FilmActors filmActors = new FilmActors();
         // 演员表里搜索找出导演（没有导演这个表）
         MtimeActorT mtimeActorT = mtimeActorTMapper.selectById(mtimeFilmInfoT2.getDirectorId());
@@ -198,7 +199,7 @@ public class FilmServiceImpl implements FilmService {
         }
         filmActors.setActors(filmActorsList);
         filmDetail.setActors(filmActors);
-        filmQueryByIdVO.setInfo4(filmDetail);   // info4
+
 
         FilmImgVO filmImgVO = new FilmImgVO();
         // filmImgVO.setMainImg(mtimeHallFilmInfoT1.getImgAddress());
@@ -213,6 +214,8 @@ public class FilmServiceImpl implements FilmService {
             filmImgVO.setImg04(split[4]);
         }
         filmQueryByIdVO.setFilmId(String.valueOf(filmId));
+        filmDetail.setImgVO(filmImgVO);
+        filmQueryByIdVO.setInfo4(filmDetail);   // info4
         return filmQueryByIdVO;
     }
 
