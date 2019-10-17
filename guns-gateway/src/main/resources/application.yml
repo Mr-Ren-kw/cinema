@@ -3,7 +3,7 @@ rest:
   sign-open: true #签名机制是否开启(true或false)
 
 redis:
-  expireTime: 25200 #redis中token的过期时间为7小时
+  expiration: 25200 #redis中token的过期时间为7小时
 
 jwt:
   header: Authorization   #http请求头所需要的字段

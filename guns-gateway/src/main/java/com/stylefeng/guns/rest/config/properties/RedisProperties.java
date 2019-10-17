@@ -6,13 +6,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = "redis")
 public class RedisProperties {
-    private int expireTime = 25200;
+    private int expiration = 25200;
 
-    public int getExpireTime() {
-        return expireTime;
+    public int getExpiration() {
+        return expiration;
     }
 
-    public void setExpireTime(int expireTime) {
-        this.expireTime = expireTime;
+    public void setExpiration(int expiration) {
+        this.expiration = expiration;
     }
 }

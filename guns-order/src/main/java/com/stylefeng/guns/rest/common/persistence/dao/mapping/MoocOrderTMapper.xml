@@ -16,6 +16,7 @@
         <result column="order_user" property="orderUser" />
         <result column="order_status" property="orderStatus" />
     </resultMap>
+
     <select id="getSoldSeatList" resultType="string">
       select seats_ids from mooc_order_t where field_id = #{fieldId} and order_status in (0,1)
     </select>
@@ -25,5 +26,13 @@
     </insert>
     <select id="selectMoocOrderTById" resultMap="BaseResultMap">
         select UUID, cinema_id, field_id, film_id, seats_ids, seats_name, film_price, order_price, order_time, order_user, order_status from mooc_order_t where UUID = #{uuid}
+    </select>
+
+    <update id="updateOrderStatusByUuid">
+        update mooc_order_t set order_status = #{status} where `UUID` = #{uuid}
+    </update>
+    <select id="selectByUuid" resultMap="BaseResultMap">
+        select `UUID`, cinema_id, field_id, film_id, seats_ids, seats_name, film_price, order_price, order_time, order_user, order_status
+        from mooc_order_t where `UUID` = #{uuid}
     </select>
 </mapper>

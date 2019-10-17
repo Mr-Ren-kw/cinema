@@ -46,3 +46,43 @@ logging:
   level.com.stylefeng: debug
   path: logs/
   file: guns-order.log
+
+oss:
+  accessKeyId: LTAI4Fx4zMyRQo5JpejCGySC
+  accessKeySecret: jaFeRNf1LfwFjD90IuV6msamgxcng3
+  endpoint: oss-cn-hangzhou.aliyuncs.com
+  bucketName: project3-cinema
+  imgPre: http://project3-cinema.oss-cn-hangzhou.aliyuncs.com/
+  filePath: E:\\tmp #本地暂存目录
+
+alipay:
+  # 支付宝网关名、partnerId和appId
+  open-api-domain: https://openapi.alipaydev.com/gateway.do
+  mcloud-api-domain: http://mcloudmonitor.com/gateway.do
+  pid: 2088102179158460  #商户UID
+  appid: 2016101200664801 # appid
+  subject: meeting院线购票当面付扫码消费 #订单标题，粗略描述用户的支付目的。如“xxx品牌xxx门店当面付扫码消费”
+  timeout: 120m #支付超时，定义为120分钟
+  # RSA私钥、公钥和支付宝公钥
+  private-key: MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCcfjoANAqdz/aIfI5PA9iN2dwSFk5wA+mnFizjkquMjiUvnfnvn58gu/o0YrwqG5DSG51AaX0lV1TDG5e3hP7OW9stNBssyv32yo10+mbv++Nv8mtAtPR8yKJYw7Oqp6uG/ONRqmoI054TC5TiyNMFeJ1l6mL9JR4PqnASZWF8x20gDVw2qqFGgQ8Vnn/a4VXX4lenxdAZaM/B+mNA9fb6iayTJqjNV2jaBuQnSkwznx1JZokiX0AaZChQIsDEe7CxEN9mt7i1qLaSLBmYa/mRcw9sJlGzjF2zFiC3eTXSPSawzFM41hBQXM0a2rDHHsiKhfXnoOMjm2M9ZoqxjL7ZAgMBAAECggEAM67MYPzO9MeV2AWqyhWvE0n8EE0looDoTbJZKN9roIPhbBR0UtsYpqruOxbQpedssLdF+9va5NYuvDEEritSK7zSad9niieQME084oFANcmul24sVbZteDiaxU38rEOrtm0WdgYd9sRM1GViynMgnhHziZEbGBeGEg5r7Odmhtqgoon1bs+j3XCFkwctL8zS0KlHYEAreH06dKbOVOVVFaM55tUnwFcIIddqgljgXueuALFGYRHCiRSRh7WtN8FwD6+BRiVs75FxDhphopwbnjbha/EioUd4p0ULQ2inbqX3VQ/2pkZAAj1InHoA2b1ZRp3a5i9KgaTbY9B5s6y9sQKBgQDko0IUUfXnJc83bJyHPEZJ+abZT3i/mgiQSPIRpPxaENRJcMYww0YbHt3bka2otV19oiSPV/btzFWaazFCI8T8Jb5WgFXoc8b4wQW7vfEqeyLYO/+gkOaOunqZdifyONui8DaB0vqafjDC6TcfonPLTiaRQ4fPrx3gYQyLozqgiwKBgQCvOK7Mx+2cTxosxy7qAzZihjuWdJkw8fR8YxzRBXuNjIyoa6w7Caf700tUc1GSOizX5tovso+kQubsj3Yw7RbwJJFmV+WJzKoMjEWMNN7YbWImmIlOFbT48244wsLrOvqW+Nir/uXXdxU/3wDBBmkAgC37g/KmuSVn4rFcoqjGqwKBgHwbOmU5UBeWaHKXXCf0SdshzrWq88pdXESls/Br9CcXd4Qd2RbjCIz0Jk1nODKZsBPgDaRZhUnzXowhn21daTHNcxIVO4ygO+MPM4ODSQNcL7/cYZfQz7Wt95qRjoFm56H8bjnuQeXWlbVXTnq3fc9froOvemr7jWYch+jMQ6idAoGAC7ie+NPm8S3ZcmVgngbY/H4+PjJOjReiYy++Hb1gJnfgcOPDAbADrLTVtTCBpGZ/2XF35vjq4vIWwHxYS62Qez/2+gGnOTCXr38yp85hmdi3WB2cEb0h/gVKukFNCK9JVBARbm/+sAsnQL6KLl9fZsksSkbpVH3OIsTnWGsJH0ECgYEAkZi4vc0o4XAoQx/oQJcNjyi5HsIfgwmfPDa5yTOI6x6qWF1WIduDb+8ham4kfuz3meuJ7rulfqwiMRi6q317YuXsvwtXxYukWBCmdMaP5jGdGwWaa5+vLCmmMbWu331NZM407apQmw6Oqykyy+bt20B+hdeXRUBEis74EYng1hY=
+  public-key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnH46ADQKnc/2iHyOTwPYjdncEhZOcAPppxYs45KrjI4lL53575+fILv6NGK8KhuQ0hudQGl9JVdUwxuXt4T+zlvbLTQbLMr99sqNdPpm7/vjb/JrQLT0fMiiWMOzqqerhvzjUapqCNOeEwuU4sjTBXidZepi/SUeD6pwEmVhfMdtIA1cNqqhRoEPFZ5/2uFV1+JXp8XQGWjPwfpjQPX2+omskyaozVdo2gbkJ0pMM58dSWaJIl9AGmQoUCLAxHuwsRDfZre4tai2kiwZmGv5kXMPbCZRs4xdsxYgt3k10j0msMxTONYQUFzNGtqwxx7IioX156DjI5tjPWaKsYy+2QIDAQAB
+
+  #SHA1withRsa对应支付宝公钥
+  #alipay_public_key: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDIgHnOn7LLILlKETd6BFRJ0GqgS2Y3mn1wMQmyh9zEyWlz5p1zrahRahbXAfCfSqshSNfqOmAQzSHRVjCqjsAw1jyqrXaPdKBmr90DIpIxmIyKXv4GGAkPyJ/6FTFY99uhpiq0qadD/uSzQsefWo0aTvP/65zi3eof7TcZ32oWpwIDAQAB
+
+  #SHA256withRsa对应支付宝公钥
+  alipay-public-key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkuRJQEhHvt7UdZNa7DBrTppo8UJJkdztDZYk0ewlVj2otrwHJibIgn34P6viI0mzon/5daNfiggnwO/w27drE6h7xqoW5Z/4/GvhmGRt4zSv62cpM8psN43yKRCQxPQm82D/N9S09lu+6Q8ISZbdBkQ1M0Q/eFJMzy335yDuZpOny7YfcMnvrQ7tri6ZKBuqgwD45qfa08P8Fq/jnWKyn7xinRkHhS/bakoPJmIRFrPjI7WgILQPY2mzmy8VrYvpnWRU/p98xM7xvAn6mFPBsQxeYOaI31Ypm9jHrzUi0iXXUk1dhWjmJoWe1Ll+bdGM54BUh6g3LgDzu7tvbYDUNQIDAQAB
+
+  # 签名类型: RSA->SHA1withRsa,RSA2->SHA256withRsa
+  sign-type: RSA2
+  # 当面付最大查询次数和查询间隔（毫秒）
+  max-query-retry: 5
+  query-duration: 5000
+
+  # 当面付最大撤销次数和撤销间隔（毫秒）
+  max-cancel-retry: 3
+  cancel-duration: 2000
+
+  # 交易保障线程第一次调度延迟和调度间隔（秒）
+  heartbeat-delay: 5
+  heartbeat-duration: 900

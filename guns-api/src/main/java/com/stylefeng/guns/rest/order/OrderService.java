@@ -1,6 +1,7 @@
 package com.stylefeng.guns.rest.order;
 
 import com.stylefeng.guns.rest.order.vo.OrderData;
+import com.stylefeng.guns.rest.order.vo.OrderRespVo;
 import com.stylefeng.guns.rest.order.vo.OrderResultResponseVO;
 import com.stylefeng.guns.rest.order.vo.OrderInfo;
 import com.stylefeng.guns.rest.order.vo.OrderPage;
@@ -18,8 +19,11 @@ public interface OrderService {
     //通过field获取已售座位的信息
     String getSoldSeats(int fieldId);
 
-    OrderResultResponseVO getPayResult(Integer orderId);
-
     //获得用户所有订单信息
     List<OrderInfo> getOrderByUserId(int userId, OrderPage page);
+
+    OrderResultResponseVO getPayResult(String orderId);
+
+    OrderRespVo<OrderResultResponseVO> getPayInfo(String orderId);
+
 }
