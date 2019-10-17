@@ -9,30 +9,47 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "alipay")
 public class AlipayProperties {
 
-    private static Log log = LogFactory.getLog(AlipayProperties.class);
+    Log log = LogFactory.getLog(AlipayProperties.class);
+    public static String subject; //(必填) 订单标题，粗略描述用户的支付目的。如“xxx品牌xxx门店当面付扫码消费”
+    public static String timeout; //支付超时，定义为120分钟
+    public static String openApiDomain;
+    public static String mcloudApiDomain;
+    public static String pid;           //商户UID
+    public static String appid;         // appid
+    public static String privateKey;      // RSA私钥，用于对商户请求报文加签
+    public static String publicKey;       // RSA公钥，仅用于验证开发者网关
+    public static String alipayPublicKey; // 支付宝RSA公钥，用于验签支付宝应答
+    public static String signType;     // 签名类型
+    public static int maxQueryRetry;   // 最大查询次数
+    public static long queryDuration;  // 查询间隔（毫秒）
+    public static int maxCancelRetry;  // 最大撤销次数
+    public static long cancelDuration; // 撤销间隔（毫秒）
+    public static long heartbeatDelay ; // 交易保障线程第一次调度延迟（秒）
+    public static long heartbeatDuration ; // 交易保障线程调度间隔（秒）
 
-    private static String openApiDomain;
-    private static String mcloudApiDomain;
-    private static String pid;           //商户UID
-    private static String appid;         // appid
-    private static String privateKey;      // RSA私钥，用于对商户请求报文加签
-    private static String publicKey;       // RSA公钥，仅用于验证开发者网关
-    private static String alipayPublicKey; // 支付宝RSA公钥，用于验签支付宝应答
-    private static String signType;     // 签名类型
-    private static int maxQueryRetry;   // 最大查询次数
-    private static long queryDuration;  // 查询间隔（毫秒）
-    private static int maxCancelRetry;  // 最大撤销次数
-    private static long cancelDuration; // 撤销间隔（毫秒）
-    private static long heartbeatDelay ; // 交易保障线程第一次调度延迟（秒）
-    private static long heartbeatDuration ; // 交易保障线程调度间隔（秒）
 
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        AlipayProperties.subject = subject;
+    }
+
+    public String getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(String timeout) {
+        AlipayProperties.timeout = timeout;
+    }
 
     public String getOpenApiDomain() {
         return openApiDomain;
     }
 
     public void setOpenApiDomain(String openApiDomain) {
-        this.openApiDomain = openApiDomain;
+        AlipayProperties.openApiDomain = openApiDomain;
     }
 
     public String getMcloudApiDomain() {
@@ -40,7 +57,7 @@ public class AlipayProperties {
     }
 
     public void setMcloudApiDomain(String mcloudApiDomain) {
-        this.mcloudApiDomain = mcloudApiDomain;
+        AlipayProperties.mcloudApiDomain = mcloudApiDomain;
     }
 
     public String getPid() {
@@ -48,7 +65,7 @@ public class AlipayProperties {
     }
 
     public void setPid(String pid) {
-        this.pid = pid;
+        AlipayProperties.pid = pid;
     }
 
     public String getAppid() {
@@ -56,15 +73,7 @@ public class AlipayProperties {
     }
 
     public void setAppid(String appid) {
-        this.appid = appid;
-    }
-
-    public static Log getLog() {
-        return log;
-    }
-
-    public static void setLog(Log log) {
-        AlipayProperties.log = log;
+        AlipayProperties.appid = appid;
     }
 
     public String getPrivateKey() {
@@ -72,7 +81,7 @@ public class AlipayProperties {
     }
 
     public void setPrivateKey(String privateKey) {
-        this.privateKey = privateKey;
+        AlipayProperties.privateKey = privateKey;
     }
 
     public String getPublicKey() {
@@ -80,7 +89,7 @@ public class AlipayProperties {
     }
 
     public void setPublicKey(String publicKey) {
-        this.publicKey = publicKey;
+        AlipayProperties.publicKey = publicKey;
     }
 
     public String getAlipayPublicKey() {
@@ -88,7 +97,7 @@ public class AlipayProperties {
     }
 
     public void setAlipayPublicKey(String alipayPublicKey) {
-        this.alipayPublicKey = alipayPublicKey;
+        AlipayProperties.alipayPublicKey = alipayPublicKey;
     }
 
     public String getSignType() {
@@ -96,7 +105,7 @@ public class AlipayProperties {
     }
 
     public void setSignType(String signType) {
-        this.signType = signType;
+        AlipayProperties.signType = signType;
     }
 
     public int getMaxQueryRetry() {
@@ -104,7 +113,7 @@ public class AlipayProperties {
     }
 
     public void setMaxQueryRetry(int maxQueryRetry) {
-        this.maxQueryRetry = maxQueryRetry;
+        AlipayProperties.maxQueryRetry = maxQueryRetry;
     }
 
     public long getQueryDuration() {
@@ -112,7 +121,7 @@ public class AlipayProperties {
     }
 
     public void setQueryDuration(long queryDuration) {
-        this.queryDuration = queryDuration;
+        AlipayProperties.queryDuration = queryDuration;
     }
 
     public int getMaxCancelRetry() {
@@ -120,7 +129,7 @@ public class AlipayProperties {
     }
 
     public void setMaxCancelRetry(int maxCancelRetry) {
-        this.maxCancelRetry = maxCancelRetry;
+        AlipayProperties.maxCancelRetry = maxCancelRetry;
     }
 
     public long getCancelDuration() {
@@ -128,7 +137,7 @@ public class AlipayProperties {
     }
 
     public void setCancelDuration(long cancelDuration) {
-        this.cancelDuration = cancelDuration;
+        AlipayProperties.cancelDuration = cancelDuration;
     }
 
     public long getHeartbeatDelay() {
@@ -136,7 +145,7 @@ public class AlipayProperties {
     }
 
     public void setHeartbeatDelay(long heartbeatDelay) {
-        this.heartbeatDelay = heartbeatDelay;
+        AlipayProperties.heartbeatDelay = heartbeatDelay;
     }
 
     public long getHeartbeatDuration() {
@@ -144,6 +153,6 @@ public class AlipayProperties {
     }
 
     public void setHeartbeatDuration(long heartbeatDuration) {
-        this.heartbeatDuration = heartbeatDuration;
+        AlipayProperties.heartbeatDuration = heartbeatDuration;
     }
 }

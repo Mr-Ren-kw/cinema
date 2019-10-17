@@ -2,10 +2,12 @@ package com.stylefeng.guns.rest.alipay.model.builder;
 
 import com.google.gson.annotations.SerializedName;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by liuyangkly on 16/3/3.
  */
+@Component
 public class AlipayTradeQueryRequestBuilder extends RequestBuilder {
 
     private BizContent bizContent = new BizContent();

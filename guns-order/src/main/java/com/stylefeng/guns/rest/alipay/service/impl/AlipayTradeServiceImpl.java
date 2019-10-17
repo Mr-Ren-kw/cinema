@@ -13,6 +13,8 @@ import com.stylefeng.guns.rest.config.properties.AlipayProperties;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.PostConstruct;
+
 /**
  * Created by liuyangkly on 15/7/29.
  *
@@ -20,8 +22,11 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  */
 public class AlipayTradeServiceImpl extends AbsAlipayTradeService {
-    @Autowired
-    static AlipayProperties alipayProperties;
+//    @Autowired
+//    AlipayProperties AlipayProperties;
+
+//    private static AlipayProperties alipayProperties;
+
     public static class ClientBuilder {
         private String gatewayUrl;
         private String appid;
@@ -33,13 +38,13 @@ public class AlipayTradeServiceImpl extends AbsAlipayTradeService {
 
         public AlipayTradeServiceImpl build() {
             if (StringUtils.isEmpty(gatewayUrl)) {
-                gatewayUrl = alipayProperties.getOpenApiDomain(); // 与mcloudmonitor网关地址不同
+                gatewayUrl = AlipayProperties.openApiDomain; // 与mcloudmonitor网关地址不同
             }
             if (StringUtils.isEmpty(appid)) {
-                appid = alipayProperties.getAppid();
+                appid = AlipayProperties.appid;
             }
             if (StringUtils.isEmpty(privateKey)) {
-                privateKey = alipayProperties.getPrivateKey();
+                privateKey = AlipayProperties.privateKey;
             }
             if (StringUtils.isEmpty(format)) {
                 format = "json";
@@ -48,10 +53,10 @@ public class AlipayTradeServiceImpl extends AbsAlipayTradeService {
                 charset = "utf-8";
             }
             if (StringUtils.isEmpty(alipayPublicKey)) {
-                alipayPublicKey = alipayProperties.getAlipayPublicKey();
+                alipayPublicKey = AlipayProperties.alipayPublicKey;
             }
             if (StringUtils.isEmpty(signType)) {
-                signType = alipayProperties.getSignType();
+                signType = AlipayProperties.signType;
             }
 
             return new AlipayTradeServiceImpl(this);

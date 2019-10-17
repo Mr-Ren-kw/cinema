@@ -13,6 +13,6 @@ import java.io.Serializable;
 public class OrderResultVO implements Serializable {
 
     private static final long serialVersionUID = 5256735162657079647L;
-    private Integer orderId;
+    private String orderId;
     private Integer tryNums;
 }

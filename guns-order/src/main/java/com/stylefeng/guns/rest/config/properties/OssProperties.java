@@ -10,6 +10,24 @@ public class OssProperties {
     private String accessKeySecret = "jaFeRNf1LfwFjD90IuV6msamgxcng3";
     private String endpoint = "oss-cn-hangzhou.aliyuncs.com";
     private String bucketName = "project3-cinema";
+    private String imgPre = "http://project3-cinema.oss-cn-hangzhou.aliyuncs.com/";
+    private String filePath = "/home/yyt/photo/";
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public String getImgPre() {
+        return imgPre;
+    }
+
+    public void setImgPre(String imgPre) {
+        this.imgPre = imgPre;
+    }
 
     public String getAccessKeyId() {
         return accessKeyId;

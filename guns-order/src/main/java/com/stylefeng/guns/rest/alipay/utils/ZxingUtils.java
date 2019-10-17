@@ -70,4 +70,11 @@ public class ZxingUtils {
             return null;
 		}
 	}
+
+    private static void writeToOss(BitMatrix matrix, String format, File file) throws IOException {
+        BufferedImage image = toBufferedImage(matrix);
+        if (!ImageIO.write(image, format, file)) {
+            throw new IOException("Could not write an image of format " + format + " to " + file);
+        }
+    }
 }

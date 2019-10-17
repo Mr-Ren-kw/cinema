@@ -13,7 +13,7 @@ jwt:
   md5-key: randomKey      #md5加密混淆key
   ignore-urls:
     - /auth
-    - /film/getIndex\
+    - /film/getIndex
     - /film/getConditionList
     - /film/getFilms
     - /film/films

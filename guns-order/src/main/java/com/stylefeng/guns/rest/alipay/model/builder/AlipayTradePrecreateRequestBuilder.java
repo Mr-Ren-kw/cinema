@@ -4,12 +4,15 @@ import com.google.gson.annotations.SerializedName;
 import com.stylefeng.guns.rest.alipay.model.ExtendParams;
 import com.stylefeng.guns.rest.alipay.model.GoodsDetail;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 /**
  * Created by liuyangkly on 16/3/3.
  */
+@Component
 public class AlipayTradePrecreateRequestBuilder extends RequestBuilder {
 
     private BizContent bizContent = new BizContent();

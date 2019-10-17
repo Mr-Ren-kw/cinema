@@ -13,6 +13,7 @@ import java.io.Serializable;
 public class OrderResultResponseVO implements Serializable {
     private static final long serialVersionUID = 6493550234204534316L;
     private String orderId;
+    private String QRCodeAddress;
     private Integer orderStatus;
     private String orderMsg;
 }
