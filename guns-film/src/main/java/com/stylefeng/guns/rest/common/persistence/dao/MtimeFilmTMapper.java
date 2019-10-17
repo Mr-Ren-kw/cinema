@@ -9,8 +9,6 @@ import org.apache.ibatis.annotations.Param;
  * 影片主表 Mapper 接口
  * </p>
  *
- * @author dongmingzhe
- * @since 2019-10-15
  */
 public interface MtimeFilmTMapper extends BaseMapper<MtimeFilmT> {
     // 根据id获取电影名称

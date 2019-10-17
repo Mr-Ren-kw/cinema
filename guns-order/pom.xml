@@ -9,7 +9,7 @@
     <packaging>jar</packaging>
 
     <name>guns-order</name>
-    <description>guns 订单服务器</description>
+    <description>guns 订单</description>
 
     <parent>
         <groupId>com.stylefeng</groupId>

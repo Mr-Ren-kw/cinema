@@ -9,6 +9,7 @@ import com.stylefeng.guns.rest.common.persistence.model.MoocOrderT;
 import com.stylefeng.guns.rest.film.FilmService;
 import com.stylefeng.guns.rest.order.OrderService;
 import com.stylefeng.guns.rest.order.vo.OrderData;
+import com.stylefeng.guns.rest.order.vo.OrderResultResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
@@ -117,5 +118,21 @@ public class OrderServiceImpl implements OrderService {
         moocOrderT.setFieldId(fieldId);
         MoocOrderT moocOrderT1 = orderTMapper.selectOne(moocOrderT);
         return moocOrderT1.getSeatsIds();
+    }
+
+    @Override
+    public OrderResultResponseVO getPayResult(Integer orderId) {
+        MoocOrderT moocOrderT = orderTMapper.selectById(orderId);
+        OrderResultResponseVO orderResultResponseVO = new OrderResultResponseVO();
+        orderResultResponseVO.setOrderId(moocOrderT.getUuid());
+        orderResultResponseVO.setOrderStatus(moocOrderT.getOrderStatus());
+        String msg;
+        if (moocOrderT.getOrderStatus() == 1){
+            msg = "支付成功";
+        }else {
+            msg = "支付失败";
+        }
+        orderResultResponseVO.setOrderMsg(msg);
+        return orderResultResponseVO;
     }
 }

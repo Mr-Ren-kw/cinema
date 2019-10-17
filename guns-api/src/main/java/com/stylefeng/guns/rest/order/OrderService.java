@@ -1,6 +1,7 @@
 package com.stylefeng.guns.rest.order;
 
 import com.stylefeng.guns.rest.order.vo.OrderData;
+import com.stylefeng.guns.rest.order.vo.OrderResultResponseVO;
 
 public interface OrderService {
     // 验证要售出的票是否为真
@@ -13,4 +14,7 @@ public interface OrderService {
     OrderData saveOrderInfo(int fieldId, String soldSeats, String seatsName, int userId);
     //通过field获取已售座位的信息
     String getSoldSeats(int fieldId);
+
+    OrderResultResponseVO getPayResult(Integer orderId);
+
 }
