@@ -82,7 +82,7 @@ public class OrderController {
             if(tryNums < 3) {
                 orderResultResponseVO.setOrderStatus(-1);
                 orderRespVo.setStatus(1);
-                orderRespVo.setMsg("订单支付失败，请稍后重试");
+//                orderRespVo.setMsg("订单支付失败，请稍后重试");
                 return orderRespVo;
             }
         }
