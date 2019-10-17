@@ -62,6 +62,7 @@ public class FilmServiceImpl implements FilmService {
     @Override
     public List<FilmInfoVo> getFilms(FilmsConditionVo filmsConditionVo) {
 
+        filmsConditionVo.setNowPage(filmsConditionVo.getOffset() + 1);
         Page<MtimeFilmT> page = new Page<>();
         page.setSize(filmsConditionVo.getPageSize());
         page.setCurrent(filmsConditionVo.getNowPage());
@@ -172,7 +173,7 @@ public class FilmServiceImpl implements FilmService {
         filmQueryByIdVO.setInfo03(info03);  // info03
 
         FilmDetail filmDetail = new FilmDetail();
-        filmDetail.setBiography(mtimeFilmInfoT2.getBiography()); // biography
+        filmDetail.setBiopgraphy(mtimeFilmInfoT2.getBiography()); // biography
         FilmActors filmActors = new FilmActors();
         // 演员表里搜索找出导演（没有导演这个表）
         MtimeActorT mtimeActorT = mtimeActorTMapper.selectById(mtimeFilmInfoT2.getDirectorId());

@@ -13,7 +13,7 @@ import java.io.Serializable;
 public class FilmDetail implements Serializable {
 
     private static final long serialVersionUID = -1187364132774938872L;
-    private String biography;   // 电影简介
+    private String biopgraphy;   // 电影简介
     private FilmActors actors;
 
 

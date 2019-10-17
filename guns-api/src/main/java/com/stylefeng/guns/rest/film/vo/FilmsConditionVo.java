@@ -20,4 +20,9 @@ public class FilmsConditionVo implements Serializable {
     private Integer yearId;
     private Integer nowPage;
     private Integer pageSize;
+    Integer offset;
+
+    public Integer getOffset() {
+        return offset;
+    }
 }
