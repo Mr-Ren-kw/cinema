@@ -1,6 +1,5 @@
-package com.stylefeng.guns.rest.modular.auth.controller.dto;
+package com.stylefeng.guns.rest.user.validator;
 
-import com.stylefeng.guns.rest.modular.auth.validator.dto.Credence;
 
 /**
  * 认证的请求dto
@@ -10,6 +9,7 @@ import com.stylefeng.guns.rest.modular.auth.validator.dto.Credence;
  */
 public class AuthRequest implements Credence {
 
+    private static final long serialVersionUID = -4130452075429141417L;
     private String userName;
     private String password;
 

@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/cinema")
 public class CinemaController {
 
-    @Reference(interfaceClass = CinemaService.class)
-    private CinemaService cinemaService;
+   @Reference(interfaceClass = CinemaService.class)
+   private CinemaService cinemaService;
 
     @GetMapping("/getCinemas")
     public BaseCinemaRespVo getCinemas(CinemaVo cinemaVo){
@@ -29,7 +29,9 @@ public class CinemaController {
 
     @RequestMapping("/getFields")
     public BaseCinemaRespVo getFields(int cinemaId) {
-        return BaseCinemaRespVo.ok(cinemaService.getFields(cinemaId));
+        BaseCinemaRespVo respVo = BaseCinemaRespVo.ok(cinemaService.getFields(cinemaId));
+        respVo.setImgPre("http://img.meetingshop.cn/");
+        return respVo;
     }
 
     @RequestMapping("/getFieldInfo")

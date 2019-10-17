@@ -14,4 +14,13 @@
         <result column="price" property="price" />
     </resultMap>
 
+    <select id="selectFilmIdListByCinemaId" resultType="int">
+        select distinct film_id from mtime_field_t where cinema_id = #{cinemaId}
+    </select>
+    <select id="selectFieldListByCinemaIdAndFilmId"
+            resultType="com.stylefeng.guns.rest.common.persistence.model.field.FilmField">
+        select UUID as fieldId,begin_time as beginTime,end_time as endTime,hall_name as hallName,price from mtime_field_t
+        where cinema_id = #{cinemaId} and film_Id = #{filmId}
+    </select>
+
 </mapper>
