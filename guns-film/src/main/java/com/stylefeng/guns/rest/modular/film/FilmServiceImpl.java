@@ -159,6 +159,9 @@ public class FilmServiceImpl implements FilmService {
         MtimeHallFilmInfoT mtimeHallFilmInfoT = new MtimeHallFilmInfoT();
         mtimeHallFilmInfoT.setFilmId(filmId);
         MtimeHallFilmInfoT mtimeHallFilmInfoT1 = mtimeHallFilmInfoTMapper.selectOne(mtimeHallFilmInfoT);
+        if (mtimeHallFilmInfoT1 == null){
+            return new FilmQueryByIdVO();
+        }
         filmQueryByIdVO.setInfo01(mtimeHallFilmInfoT1.getFilmCats());   // info1
 
         String info02;
@@ -174,7 +177,7 @@ public class FilmServiceImpl implements FilmService {
 
         FilmDetail filmDetail = new FilmDetail();
         filmDetail.setBiopgraphy(mtimeFilmInfoT2.getBiography()); // biography
-        filmDetail.setFilmId(String.valueOf(filmId));   //  应该放在这里，之前放错地方了
+        filmDetail.setFilmId(String.valueOf(filmId));   //  应该放在这里，之前放错地方了（不是放错地方，是接口文档和示例不一致）
         FilmActors filmActors = new FilmActors();
         // 演员表里搜索找出导演（没有导演这个表）
         MtimeActorT mtimeActorT = mtimeActorTMapper.selectById(mtimeFilmInfoT2.getDirectorId());
@@ -214,8 +217,9 @@ public class FilmServiceImpl implements FilmService {
             filmImgVO.setImg04(split[4]);
         }
         filmQueryByIdVO.setFilmId(String.valueOf(filmId));
-        filmDetail.setImgVO(filmImgVO);
-        filmQueryByIdVO.setInfo4(filmDetail);   // info4
+        filmDetail.setImgVO(filmImgVO); // filmDetail-ImgVO
+        // filmQueryByIdVO.setImgVO(filmImgVO);    // imgVO
+        filmQueryByIdVO.setInfo04(filmDetail);   // info4
         return filmQueryByIdVO;
     }
 
