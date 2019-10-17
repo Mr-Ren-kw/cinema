@@ -1,6 +1,8 @@
 package com.stylefeng.guns.rest.cinema;
 
 import com.stylefeng.guns.rest.cinema.vo.FieldMsgForOrder;
+import com.stylefeng.guns.rest.cinema.vo.BaseCinemaRespVo;
+import com.stylefeng.guns.rest.cinema.vo.CinemaVo;
 
 public interface CinemaService {
     // 获取影院列表查询条件
@@ -15,4 +17,9 @@ public interface CinemaService {
     String getFieldTimeById(int fieldId);
     // 通过cinemaId获得影院的名称
     String getCinemaNameById(int cinemaId);
+    //根据条件查询所有影院
+    BaseCinemaRespVo getCinemas(CinemaVo cinemaVo);
+
+
+    BaseCinemaRespVo getFieldInfo(int cinemaId, int fieldId);
 }

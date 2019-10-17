@@ -110,4 +110,12 @@ public class OrderServiceImpl implements OrderService {
         orderData.setOrderTimestamp(orderTimestamp);
         return orderData;
     }
+
+    @Override
+    public String getSoldSeats(int fieldId) {
+        MoocOrderT moocOrderT = new MoocOrderT();
+        moocOrderT.setFieldId(fieldId);
+        MoocOrderT moocOrderT1 = orderTMapper.selectOne(moocOrderT);
+        return moocOrderT1.getSeatsIds();
+    }
 }

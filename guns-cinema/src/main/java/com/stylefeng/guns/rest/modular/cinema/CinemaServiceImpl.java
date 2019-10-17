@@ -1,10 +1,19 @@
 package com.stylefeng.guns.rest.modular.cinema;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.stylefeng.guns.rest.cinema.CinemaService;
 import com.stylefeng.guns.rest.cinema.vo.FieldMsgForOrder;
+import com.stylefeng.guns.rest.cinema.vo.BaseCinemaRespVo;
+import com.stylefeng.guns.rest.cinema.vo.CinemaVo;
 import com.stylefeng.guns.rest.common.persistence.dao.*;
 import com.stylefeng.guns.rest.common.persistence.model.MtimeCinemaT;
+import com.stylefeng.guns.rest.common.persistence.model.MtimeFieldT;
+import com.stylefeng.guns.rest.common.persistence.model.MtimeHallDictT;
+import com.stylefeng.guns.rest.common.persistence.model.MtimeHallFilmInfoT;
+import com.stylefeng.guns.rest.common.persistence.model.cinema.Cinema;
 import com.stylefeng.guns.rest.common.persistence.model.codition.Area;
 import com.stylefeng.guns.rest.common.persistence.model.codition.Brand;
 import com.stylefeng.guns.rest.common.persistence.model.codition.CoditionData;
@@ -12,14 +21,20 @@ import com.stylefeng.guns.rest.common.persistence.model.codition.HallType;
 import com.stylefeng.guns.rest.common.persistence.model.field.CinemaInfo;
 import com.stylefeng.guns.rest.common.persistence.model.field.FieldData;
 import com.stylefeng.guns.rest.common.persistence.model.field.Film;
-import com.stylefeng.guns.rest.common.persistence.model.field.FilmField;
+import com.stylefeng.guns.rest.common.persistence.model.hall.HallInfo;
+import com.stylefeng.guns.rest.common.persistence.model.hall.ResultFieldInfo;
+import com.stylefeng.guns.rest.order.OrderService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import com.stylefeng.guns.rest.common.persistence.model.field.FilmField;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -45,8 +60,13 @@ public class CinemaServiceImpl implements CinemaService {
     @Autowired
     MtimeHallFilmInfoTMapper hallFilmInfoTMapper;
 
+
     @Autowired
     Jedis jedis;
+
+    @Reference(interfaceClass = OrderService.class,check = false)
+    OrderService orderService;
+
 
     @Override
     public Object getCodition(int brandId, int hallType, int areaId) {
@@ -124,10 +144,10 @@ public class CinemaServiceImpl implements CinemaService {
 
         // 暂时直接读取
         try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader("cgs.json"));
+            ClassPathResource classPathResource = new ClassPathResource("cgs.json");
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(classPathResource.getFile()));
             String s = null;
-            while (bufferedReader.readLine() != null) {
-                s = bufferedReader.readLine();
+            while ((s = bufferedReader.readLine()) != null) {
                 if (s.contains("ids")) {
                     break;
                 }
@@ -135,8 +155,8 @@ public class CinemaServiceImpl implements CinemaService {
             if (s != null) {
                 String[] split = s.split("\"");
                 System.out.println("size = " + split.length);
-                System.out.println(split[2]);
-                seatMsg = split[2];
+                System.out.println(split[3]);
+                seatMsg = split[3];
                 // 存储到redis中
                 jedis.set(String.valueOf(hallId), seatMsg);
             }
@@ -159,5 +179,85 @@ public class CinemaServiceImpl implements CinemaService {
     @Override
     public String getCinemaNameById(int cinemaId) {
         return cinemaTMapper.getCinemaNameById(cinemaId);
+    }
+
+    public BaseCinemaRespVo getCinemas(CinemaVo cinemaVo) {
+        EntityWrapper<MtimeCinemaT> entityWrapper = new EntityWrapper<>();
+        Page<MtimeCinemaT> page = new Page<>(cinemaVo.getNowPage(), cinemaVo.getPageSize());
+        // 判断是否传入查询条件 -> brandId,areaI`d,hallType 是否==99 order by id desc
+        if (cinemaVo.getBrandId() != 99) {
+            entityWrapper.eq("brand_id", cinemaVo.getBrandId());
+            //where brand_id  = cinemaVo.getBrandId()
+        }
+        if (cinemaVo.getAreaId() != 99) {
+            entityWrapper.eq("area_id", cinemaVo.getAreaId());
+        }
+        if (cinemaVo.getHallType() != 99) {
+            entityWrapper.like("hall_ids", "%" + cinemaVo.getHallType() + "%");
+        }
+        List<MtimeCinemaT> mtimeCinemaTS = cinemaTMapper.selectPage(page, entityWrapper);
+        ArrayList<Cinema> cinemas = new ArrayList<>();
+        for (MtimeCinemaT cinemaT : mtimeCinemaTS) {
+            Cinema cinema = new Cinema();
+            cinema.setCinemaAddress(cinemaT.getCinemaAddress());
+            cinema.setCinemaName(cinemaT.getCinemaName());
+            cinema.setMinimumPrice(cinemaT.getMinimumPrice());
+            cinema.setUuid(cinemaT.getUuid());
+            cinemas.add(cinema);
+        }
+        BaseCinemaRespVo<Object> baseCinemaRespVo = new BaseCinemaRespVo<>();
+        baseCinemaRespVo.setData(cinemas);
+        baseCinemaRespVo.setImgPre("http://img.meetingshop.cn/");
+        baseCinemaRespVo.setMsg("");
+        baseCinemaRespVo.setStatus(0);
+        baseCinemaRespVo.setNowPage(cinemaVo.getNowPage());
+        int totalPage = 0;
+        if (cinemas.size() % cinemaVo.getPageSize() == 0) {
+            totalPage = cinemas.size() / cinemaVo.getPageSize();
+        } else {
+            totalPage = cinemas.size() / cinemaVo.getPageSize() + 1;
+        }
+        baseCinemaRespVo.setTotalPage(totalPage);
+        return baseCinemaRespVo;
+
+
+    }
+
+    @Override
+    public BaseCinemaRespVo getFieldInfo(int cinemaId, int fieldId) {
+        ResultFieldInfo resultFieldInfo = new ResultFieldInfo();
+        MtimeCinemaT mtimeCinemaT = cinemaTMapper.selectById(cinemaId);
+        CinemaInfo cinemaInfo = new CinemaInfo();
+        cinemaInfo.setCinemaAdress(mtimeCinemaT.getCinemaAddress());
+        cinemaInfo.setCinemaId(cinemaId);
+        cinemaInfo.setCinemaName(mtimeCinemaT.getCinemaName());
+        cinemaInfo.setCinemaPhone(mtimeCinemaT.getCinemaPhone());
+        cinemaInfo.setImgUrl(mtimeCinemaT.getImgAddress());
+        resultFieldInfo.setCinemaInfo(cinemaInfo);
+        MtimeFieldT fieldT = fieldTMapper.selectById(fieldId);
+        Integer filmId = fieldT.getFilmId();
+        MtimeHallFilmInfoT mtimeHallFilmInfoT = new MtimeHallFilmInfoT();
+        mtimeHallFilmInfoT.setFilmId(filmId);
+        MtimeHallFilmInfoT mtimeHallFilmInfoT1 = hallFilmInfoTMapper.selectOne(mtimeHallFilmInfoT);
+        Film filmInfo = new Film();
+        BeanUtils.copyProperties(mtimeHallFilmInfoT1,filmInfo);
+        Integer hallId = fieldT.getHallId();
+        MtimeHallDictT mtimeHallDictT = hallDictTMapper.selectById(hallId);
+        HallInfo hallInfo = new HallInfo();
+        hallInfo.setHallFieldId(fieldId);
+        hallInfo.setHallName(fieldT.getHallName());
+        hallInfo.setPrice(fieldT.getPrice());
+        hallInfo.setSeatFile(mtimeHallDictT.getSeatAddress());
+        String soldSeats =  orderService.getSoldSeats(fieldId);
+        hallInfo.setSoldSeats(soldSeats);
+        resultFieldInfo.setFilmInfo(filmInfo);
+        resultFieldInfo.setHallInfo(hallInfo);
+
+        BaseCinemaRespVo<ResultFieldInfo> respVo = new BaseCinemaRespVo<>();
+        respVo.setData(resultFieldInfo);
+        respVo.setStatus(0);
+        respVo.setImgPre("http://img.meetingshop.cn/");
+
+        return respVo;
     }
 }
