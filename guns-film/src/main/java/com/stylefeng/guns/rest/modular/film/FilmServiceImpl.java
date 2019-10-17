@@ -159,6 +159,9 @@ public class FilmServiceImpl implements FilmService {
         MtimeHallFilmInfoT mtimeHallFilmInfoT = new MtimeHallFilmInfoT();
         mtimeHallFilmInfoT.setFilmId(filmId);
         MtimeHallFilmInfoT mtimeHallFilmInfoT1 = mtimeHallFilmInfoTMapper.selectOne(mtimeHallFilmInfoT);
+        if (mtimeHallFilmInfoT1 == null){
+            return new FilmQueryByIdVO();
+        }
         filmQueryByIdVO.setInfo01(mtimeHallFilmInfoT1.getFilmCats());   // info1
 
         String info02;
