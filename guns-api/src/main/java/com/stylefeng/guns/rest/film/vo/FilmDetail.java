@@ -15,6 +15,7 @@ public class FilmDetail implements Serializable {
     private static final long serialVersionUID = -1187364132774938872L;
     private String biopgraphy;   // 电影简介
     private FilmActors actors;
-
+    private String filmId;
+    private FilmImgVO imgVO;
 
 }
