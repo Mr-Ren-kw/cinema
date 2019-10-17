@@ -22,4 +22,8 @@ public interface CinemaService {
 
 
     BaseCinemaRespVo getFieldInfo(int cinemaId, int fieldId);
+    //获取影院名字
+    String getNameById(Integer cinemaId);
+
+    String getFieldTimeById(Integer fieldId);
 }

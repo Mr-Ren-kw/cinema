@@ -16,11 +16,13 @@ public class CinemaController {
     @Reference(interfaceClass = CinemaService.class)
     private CinemaService cinemaService;
 
+
     @GetMapping("/getCinemas")
     public BaseCinemaRespVo getCinemas(CinemaVo cinemaVo){
         BaseCinemaRespVo baseCinemaRespVo = cinemaService.getCinemas(cinemaVo);
         return baseCinemaRespVo;
     }
+
 
     @GetMapping("/getCondition")
     public BaseCinemaRespVo getCondition(ConditionVo conditionVo) {

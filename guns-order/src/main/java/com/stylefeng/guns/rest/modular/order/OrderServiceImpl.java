@@ -4,18 +4,23 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.stylefeng.guns.rest.cinema.CinemaService;
 import com.stylefeng.guns.rest.cinema.vo.FieldMsgForOrder;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.stylefeng.guns.rest.common.persistence.dao.MoocOrderTMapper;
 import com.stylefeng.guns.rest.common.persistence.model.MoocOrderT;
 import com.stylefeng.guns.rest.film.FilmService;
 import com.stylefeng.guns.rest.order.OrderService;
 import com.stylefeng.guns.rest.order.vo.OrderData;
 import com.stylefeng.guns.rest.order.vo.OrderResultResponseVO;
+import com.stylefeng.guns.rest.order.vo.OrderInfo;
+import com.stylefeng.guns.rest.order.vo.OrderPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
-
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @Service(interfaceClass = OrderService.class)
@@ -114,10 +119,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public String getSoldSeats(int fieldId) {
-        MoocOrderT moocOrderT = new MoocOrderT();
-        moocOrderT.setFieldId(fieldId);
-        MoocOrderT moocOrderT1 = orderTMapper.selectOne(moocOrderT);
-        return moocOrderT1.getSeatsIds();
+        List<String> soldSeats = orderTMapper.getSoldSeatList(fieldId);
+        StringBuffer stringBuffer = new StringBuffer();
+        for (String soldSeat : soldSeats) {
+            stringBuffer.append(soldSeat).append(",");
+        }
+        String string = stringBuffer.toString();
+        return string.substring(0, string.length() - 1);
     }
 
     @Override
@@ -134,5 +142,39 @@ public class OrderServiceImpl implements OrderService {
         }
         orderResultResponseVO.setOrderMsg(msg);
         return orderResultResponseVO;
+    }
+
+    @Override
+    public List<OrderInfo> getOrderByUserId(int userId, OrderPage page) {
+        Integer nowPage = page.getNowPage();
+        Integer pageSize = page.getPageSize();
+        Page<MoocOrderT> orderPage = new Page<>(nowPage, pageSize);
+        EntityWrapper<MoocOrderT> wrapper = new EntityWrapper<>();
+        wrapper.eq("order_user", userId);
+        List<MoocOrderT> orders = orderTMapper.selectPage(orderPage, wrapper);
+        List<OrderInfo> orderList = new ArrayList<>();
+        for (MoocOrderT order : orders) {
+            OrderInfo orderInfo = new OrderInfo();
+            String filmName = filmService.getNameById(order.getFilmId());
+            String fieldTime = cinemaService.getFieldTimeById(order.getFieldId());
+            String cinemaName = cinemaService.getNameById(order.getCinemaId());
+            orderInfo.setOrderId(order.getUuid());
+            orderInfo.setFilmName(filmName);
+            orderInfo.setFieldTime(fieldTime);
+            orderInfo.setCinemaName(cinemaName);
+            orderInfo.setSeatsName(order.getSeatsName());
+            orderInfo.setOrderPrice(order.getOrderPrice().toString());
+            Integer status = order.getOrderStatus();
+            switch(status) {
+                case 0: orderInfo.setOrderStatus("待支付");
+                    break;
+                case 1: orderInfo.setOrderStatus("已支付");
+                    break;
+                case 2: orderInfo.setOrderStatus("已关闭");
+                    break;
+            }
+            orderList.add(orderInfo);
+        }
+        return orderList;
     }
 }

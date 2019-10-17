@@ -23,10 +23,12 @@ public interface FilmService {
     List<FilmInfoVo> getFilms(FilmsConditionVo filmsConditionVo);
 
     FilmQueryByIdVO queryFilmById(Integer filmId);
-
+    // 根据id获取电影名称
+    String getFilmNameById(int filmId);
+    //获取影院首页
     IndexData getIndex();
 
     ConditionData getFilmCondition(FilmConditionVo filmConditionVo);
-    // 根据id获取电影名称
-    String getFilmNameById(int filmId);
+
+    String getNameById(Integer filmId);
 }

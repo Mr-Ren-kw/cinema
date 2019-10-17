@@ -2,6 +2,9 @@ package com.stylefeng.guns.rest.order;
 
 import com.stylefeng.guns.rest.order.vo.OrderData;
 import com.stylefeng.guns.rest.order.vo.OrderResultResponseVO;
+import com.stylefeng.guns.rest.order.vo.OrderInfo;
+import com.stylefeng.guns.rest.order.vo.OrderPage;
+import java.util.List;
 
 public interface OrderService {
     // 验证要售出的票是否为真
@@ -17,4 +20,6 @@ public interface OrderService {
 
     OrderResultResponseVO getPayResult(Integer orderId);
 
+    //获得用户所有订单信息
+    List<OrderInfo> getOrderByUserId(int userId, OrderPage page);
 }

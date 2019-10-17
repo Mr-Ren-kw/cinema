@@ -240,7 +240,7 @@ public class CinemaServiceImpl implements CinemaService {
         mtimeHallFilmInfoT.setFilmId(filmId);
         MtimeHallFilmInfoT mtimeHallFilmInfoT1 = hallFilmInfoTMapper.selectOne(mtimeHallFilmInfoT);
         Film filmInfo = new Film();
-        BeanUtils.copyProperties(mtimeHallFilmInfoT1,filmInfo);
+        BeanUtils.copyProperties(mtimeHallFilmInfoT1, filmInfo);
         Integer hallId = fieldT.getHallId();
         MtimeHallDictT mtimeHallDictT = hallDictTMapper.selectById(hallId);
         HallInfo hallInfo = new HallInfo();
@@ -248,7 +248,7 @@ public class CinemaServiceImpl implements CinemaService {
         hallInfo.setHallName(fieldT.getHallName());
         hallInfo.setPrice(fieldT.getPrice());
         hallInfo.setSeatFile(mtimeHallDictT.getSeatAddress());
-        String soldSeats =  orderService.getSoldSeats(fieldId);
+        String soldSeats = orderService.getSoldSeats(fieldId);
         hallInfo.setSoldSeats(soldSeats);
         resultFieldInfo.setFilmInfo(filmInfo);
         resultFieldInfo.setHallInfo(hallInfo);
@@ -259,5 +259,17 @@ public class CinemaServiceImpl implements CinemaService {
         respVo.setImgPre("http://img.meetingshop.cn/");
 
         return respVo;
+    }
+
+    @Override
+    public String getNameById(Integer cinemaId) {
+        MtimeCinemaT mtimeCinemaT = cinemaTMapper.selectById(cinemaId);
+        return mtimeCinemaT.getCinemaName();
+    }
+
+    @Override
+    public String getFieldTimeById(Integer fieldId) {
+        MtimeFieldT mtimeFieldT = fieldTMapper.selectById(fieldId);
+        return mtimeFieldT.getBeginTime();
     }
 }
