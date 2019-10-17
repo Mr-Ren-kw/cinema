@@ -1,6 +1,10 @@
 package com.stylefeng.guns.rest.order;
 
 import com.stylefeng.guns.rest.order.vo.OrderData;
+import com.stylefeng.guns.rest.order.vo.OrderInfo;
+import com.stylefeng.guns.rest.order.vo.OrderPage;
+
+import java.util.List;
 
 public interface OrderService {
     // 验证要售出的票是否为真
@@ -12,4 +16,6 @@ public interface OrderService {
     // 创建订单信息
     OrderData saveOrderInfo(int fieldId, String soldSeats, String seatsName, int userId);
 
+    //获得用户所有订单信息
+    List<OrderInfo> getOrderByUserId(int userId, OrderPage page);
 }

@@ -5,4 +5,8 @@ public interface CinemaService {
     Object getCodition(int brandId, int hallType, int areaId);
     // 获取播放场次接口
     Object getFields(int cinemaId);
+    //获取影院名字
+    String getNameById(Integer cinemaId);
+
+    String getFieldTimeById(Integer fieldId);
 }

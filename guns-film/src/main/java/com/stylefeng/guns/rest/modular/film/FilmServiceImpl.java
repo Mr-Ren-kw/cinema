@@ -88,6 +88,10 @@ public class FilmServiceImpl implements FilmService{
             filmInfo.setFilmScore(mtimeFilmT.getFilmScore());
             filmInfo.setFilmType(mtimeFilmT.getFilmType());
             filmInfo.setImgAddress(mtimeFilmT.getImgAddress());
+            filmInfo.setExpectNum(mtimeFilmT.getFilmPresalenum());
+            filmInfo.setScore(mtimeFilmT.getFilmScore());
+            filmInfo.setBoxNum(mtimeFilmT.getFilmBoxOffice());
+            filmInfo.setShowTime(mtimeFilmT.getFilmTime());
             filmInfos.add(filmInfo);
         }
         return filmInfos;
@@ -125,4 +129,11 @@ public class FilmServiceImpl implements FilmService{
         data.setYearInfo(yearInfo);
         return data;
     }
+
+    @Override
+    public String getNameById(Integer filmId) {
+        MtimeFilmT mtimeFilmT = mtimeFilmTMapper.selectById(filmId);
+        return mtimeFilmT.getFilmName();
+    }
+
 }

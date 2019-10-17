@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.stylefeng.guns.rest.cinema.CinemaService;
 import com.stylefeng.guns.rest.common.persistence.dao.*;
 import com.stylefeng.guns.rest.common.persistence.model.MtimeCinemaT;
+import com.stylefeng.guns.rest.common.persistence.model.MtimeFieldT;
 import com.stylefeng.guns.rest.common.persistence.model.codition.Area;
 import com.stylefeng.guns.rest.common.persistence.model.codition.Brand;
 import com.stylefeng.guns.rest.common.persistence.model.codition.CoditionData;
@@ -99,5 +100,17 @@ public class CinemaServiceImpl implements CinemaService {
         }
         fieldData.setFilmList(filmList);
         return fieldData;
+    }
+
+    @Override
+    public String getNameById(Integer cinemaId) {
+        MtimeCinemaT mtimeCinemaT = cinemaTMapper.selectById(cinemaId);
+        return mtimeCinemaT.getCinemaName();
+    }
+
+    @Override
+    public String getFieldTimeById(Integer fieldId) {
+        MtimeFieldT mtimeFieldT = fieldTMapper.selectById(fieldId);
+        return mtimeFieldT.getBeginTime();
     }
 }
