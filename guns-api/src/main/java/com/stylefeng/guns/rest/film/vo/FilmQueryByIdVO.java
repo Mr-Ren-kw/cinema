@@ -22,7 +22,7 @@ public class FilmQueryByIdVO implements Serializable {
     private String info01;
     private String info02;
     private String info03;
-    private FilmDetail info4;
+    private FilmDetail info04;
     private FilmImgVO imgVO;
     private String filmId;
 }
