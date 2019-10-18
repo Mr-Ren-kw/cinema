@@ -5,6 +5,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.stylefeng.guns.rest.cinema.CinemaService;
+import com.stylefeng.guns.rest.cinema.vo.CinemaMsgForPromo;
 import com.stylefeng.guns.rest.cinema.vo.FieldMsgForOrder;
 import com.stylefeng.guns.rest.cinema.vo.BaseCinemaRespVo;
 import com.stylefeng.guns.rest.cinema.vo.CinemaVo;
@@ -271,5 +272,10 @@ public class CinemaServiceImpl implements CinemaService {
     public String getFieldTimeById(Integer fieldId) {
         MtimeFieldT mtimeFieldT = fieldTMapper.selectById(fieldId);
         return mtimeFieldT.getBeginTime();
+    }
+
+    @Override
+    public CinemaMsgForPromo getCinemaMsgForPromoById(int cinemaId) {
+        return cinemaTMapper.getCinemaMsgForPromoById(cinemaId);
     }
 }
