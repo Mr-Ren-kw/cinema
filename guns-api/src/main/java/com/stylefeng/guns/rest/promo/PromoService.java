@@ -8,4 +8,6 @@ public interface PromoService {
     PromoRespVo getPromoList(Integer cinemaId);
     // 创建新的秒杀活动订单
     PromoRespVo createPromoOrder(PromoOrderVo promoOrderVo,int userId);
+    // 修改库存
+    int updatePromoStock(int promoId, int newStock);
 }

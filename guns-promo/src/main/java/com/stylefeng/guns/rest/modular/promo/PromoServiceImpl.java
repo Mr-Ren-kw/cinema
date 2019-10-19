@@ -7,12 +7,11 @@ import com.stylefeng.guns.rest.cinema.vo.CinemaMsgForPromo;
 import com.stylefeng.guns.rest.common.persistence.dao.MtimePromoMapper;
 import com.stylefeng.guns.rest.common.persistence.dao.MtimePromoOrderMapper;
 import com.stylefeng.guns.rest.common.persistence.dao.MtimePromoStockMapper;
-import com.stylefeng.guns.rest.common.persistence.model.MtimePromo;
-import com.stylefeng.guns.rest.common.persistence.model.MtimePromoOrder;
-import com.stylefeng.guns.rest.common.persistence.model.PromoData;
-import com.stylefeng.guns.rest.common.persistence.model.PromoOrderRespData;
+import com.stylefeng.guns.rest.common.persistence.model.*;
+import com.stylefeng.guns.rest.common.util.MQProducerForStock;
 import com.stylefeng.guns.rest.promo.PromoService;
 import com.stylefeng.guns.rest.promo.vo.PromoRespVo;
+import org.apache.rocketmq.client.exception.MQClientException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -81,11 +80,11 @@ public class PromoServiceImpl implements PromoService {
             return promoRespVo.fail(402,"下单失败");
         }
         // 修改库存
-        int result = promoStockMapper.updateStockByPromoId(promoId, stock - amount);
-        if (result != 1) {
-            promoRespVo.setData(promoOrderData.fail());
-            return promoRespVo.fail(402,"下单失败");
-        }
+//        int result = promoStockMapper.updateStockByPromoId(promoId, stock - amount);
+//        if (result != 1) {
+//            promoRespVo.setData(promoOrderData.fail());
+//            return promoRespVo.fail(402,"下单失败");
+//        }
         // 添加订单
         MtimePromo promo = promoMapper.selectById(promoId);
         MtimePromoOrder promoOrder = new MtimePromoOrder();
@@ -103,12 +102,29 @@ public class PromoServiceImpl implements PromoService {
         promoOrder.setCreateTime(new Date());
         Integer insert = promoOrderMapper.insert(promoOrder);
         if (insert == 1) {
-            // 下单成功
-            promoOrderData.setStatus("0");
-            promoOrderData.setMsg("下单成功");
-            return promoRespVo.ok(promoOrderData);
+            // 修改库存
+            PromoNewStock promoNewStock = new PromoNewStock();
+            promoNewStock.setPromoId(promoId);
+            promoNewStock.setNewStock(stock-amount);
+            try {
+                MQProducerForStock.sendMessage(promoNewStock);
+            } catch (MQClientException e) {
+                // 回滚事务
+
+                // 下单失败
+                promoRespVo.setData(promoOrderData.fail());
+                return promoRespVo.fail(402,"下单失败");
+            }
+
         }
-        promoRespVo.setData(promoOrderData.fail());
-        return promoRespVo.fail(402,"下单失败");
+        // 下单成功
+        promoOrderData.setStatus("0");
+        promoOrderData.setMsg("下单成功");
+        return promoRespVo.ok(promoOrderData);
+    }
+
+    @Override
+    public int updatePromoStock(int promoId, int newStock) {
+        return promoStockMapper.updateStockByPromoId(promoId,newStock);
     }
 }
