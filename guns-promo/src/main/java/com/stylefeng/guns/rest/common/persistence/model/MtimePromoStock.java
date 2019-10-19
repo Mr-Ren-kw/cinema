@@ -1,4 +1,4 @@
-package com.stylefeng.guns.rest.persistence.model;
+package com.stylefeng.guns.rest.common.persistence.model;
 
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.activerecord.Model;
@@ -10,8 +10,8 @@ import java.io.Serializable;
  * 
  * </p>
  *
- * @author stylefeng
- * @since 2019-10-19
+ * @author renkw
+ * @since 2019-10-18
  */
 @TableName("mtime_promo_stock")
 public class MtimePromoStock extends Model<MtimePromoStock> {

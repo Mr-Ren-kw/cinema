@@ -1,4 +1,4 @@
-package com.stylefeng.guns.rest.persistence.model;
+package com.stylefeng.guns.rest.common.persistence.model;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -12,8 +12,8 @@ import java.io.Serializable;
  * 
  * </p>
  *
- * @author stylefeng
- * @since 2019-10-19
+ * @author renkw
+ * @since 2019-10-18
  */
 @TableName("mtime_promo_order")
 public class MtimePromoOrder extends Model<MtimePromoOrder> {

@@ -1,4 +1,4 @@
-package com.stylefeng.guns.rest.persistence.model;
+package com.stylefeng.guns.rest.common.persistence.model;
 
 import com.baomidou.mybatisplus.enums.IdType;
 import java.math.BigDecimal;
@@ -14,8 +14,8 @@ import java.io.Serializable;
  * 
  * </p>
  *
- * @author stylefeng
- * @since 2019-10-19
+ * @author renkw
+ * @since 2019-10-18
  */
 @TableName("mtime_promo")
 public class MtimePromo extends Model<MtimePromo> {

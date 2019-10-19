@@ -1,5 +1,6 @@
 package com.stylefeng.guns.rest.cinema;
 
+import com.stylefeng.guns.rest.cinema.vo.CinemaMsgForPromo;
 import com.stylefeng.guns.rest.cinema.vo.FieldMsgForOrder;
 import com.stylefeng.guns.rest.cinema.vo.BaseCinemaRespVo;
 import com.stylefeng.guns.rest.cinema.vo.CinemaVo;
@@ -26,4 +27,7 @@ public interface CinemaService {
     String getNameById(Integer cinemaId);
 
     String getFieldTimeById(Integer fieldId);
+
+    // 为秒杀活动查询影院的部分信息
+    CinemaMsgForPromo getCinemaMsgForPromoById(int cinemaId);
 }
