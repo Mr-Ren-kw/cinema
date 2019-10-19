@@ -53,7 +53,7 @@ oss:
   endpoint: oss-cn-hangzhou.aliyuncs.com
   bucketName: project3-cinema
   imgPre: http://project3-cinema.oss-cn-hangzhou.aliyuncs.com/
-  filePath: E:\\tmp #本地暂存目录
+  filePath: E:\\tmp\ #本地暂存目录
 
 alipay:
   # 支付宝网关名、partnerId和appId
