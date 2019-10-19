@@ -14,10 +14,14 @@ import org.apache.rocketmq.common.message.MessageExt;
 import java.util.List;
 
 public class MQConsumerForStock {
-    public static void main(String[] args) throws MQClientException {
+    public static void main(String[] args) {
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("consumer-stock");
         consumer.setNamesrvAddr("127.0.0.1:9876");
-        consumer.subscribe("stock","*");
+        try {
+            consumer.subscribe("stock","*");
+        } catch (MQClientException e) {
+            e.printStackTrace();
+        }
         PromoService promoService = new PromoServiceImpl();
         consumer.registerMessageListener(new MessageListenerConcurrently() {
             @Override
