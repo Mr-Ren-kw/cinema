@@ -10,10 +10,12 @@ import com.stylefeng.guns.rest.common.persistence.dao.MtimePromoStockMapper;
 import com.stylefeng.guns.rest.common.persistence.model.*;
 import com.stylefeng.guns.rest.common.util.MQProducerForStock;
 import com.stylefeng.guns.rest.promo.PromoService;
+import com.stylefeng.guns.rest.promo.vo.PromoOrderVo;
 import com.stylefeng.guns.rest.promo.vo.PromoRespVo;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import redis.clients.jedis.Jedis;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -34,8 +36,11 @@ public class PromoServiceImpl implements PromoService {
     @Autowired
     MtimePromoOrderMapper promoOrderMapper;
 
-    @Reference(interfaceClass = CinemaService.class)
+    @Reference(interfaceClass = CinemaService.class,check = false)
     CinemaService cinemaService;
+
+    @Autowired
+    Jedis jedis;
 
     @Override
     public PromoRespVo<List<PromoData>> getPromoList(Integer cinemaId) {
@@ -59,6 +64,7 @@ public class PromoServiceImpl implements PromoService {
             promo.setImgAddress(cinemaMsg.getImgAddress());
             // 根据秒杀活动id查询stock表获取库存
             promo.setStock(promoStockMapper.selectStockByPromoId(promo.getUuid()));
+            jedis.set(String.valueOf(promo.getUuid()), String.valueOf(promo.getStock()));
             promoDataList.add(promo);
         }
         PromoRespVo<List<PromoData>> listPromoRespVo = new PromoRespVo<>();
@@ -67,24 +73,26 @@ public class PromoServiceImpl implements PromoService {
     }
 
     @Override
-    public PromoRespVo createPromoOrder(com.stylefeng.guns.rest.promo.vo.PromoOrderVo promoOrderVo, int userId) {
+    public PromoRespVo createPromoOrder(PromoOrderVo promoOrderVo, int userId) {
         PromoRespVo<PromoOrderRespData> promoRespVo = new PromoRespVo<>();
         PromoOrderRespData promoOrderData = new PromoOrderRespData();
         // 先判断是否还有余票
         int promoId = promoOrderVo.getPromoId();
         int amount = promoOrderVo.getAmount();
-        // 查询promo_stock表
-        int stock = promoStockMapper.selectStockByPromoId(promoId);
+        // 先查询redis，没有查询到再查询promo_stock表
+        String stockStr = jedis.get(String.valueOf(promoId));
+        int stock;
+        if (stockStr == null) {
+            stock = promoStockMapper.selectStockByPromoId(promoId);
+            jedis.set(String.valueOf(promoId), String.valueOf(stock));
+        }else {
+            stock = Integer.parseInt(stockStr);
+        }
+        // 判断库存是否足够
         if (stock < amount) {
             promoRespVo.setData(promoOrderData.fail());
             return promoRespVo.fail(402,"下单失败");
         }
-        // 修改库存
-//        int result = promoStockMapper.updateStockByPromoId(promoId, stock - amount);
-//        if (result != 1) {
-//            promoRespVo.setData(promoOrderData.fail());
-//            return promoRespVo.fail(402,"下单失败");
-//        }
         // 添加订单
         MtimePromo promo = promoMapper.selectById(promoId);
         MtimePromoOrder promoOrder = new MtimePromoOrder();
@@ -102,10 +110,14 @@ public class PromoServiceImpl implements PromoService {
         promoOrder.setCreateTime(new Date());
         Integer insert = promoOrderMapper.insert(promoOrder);
         if (insert == 1) {
+            int newStock = stock - amount;
+            // 修改Redis中的值
+            jedis.set(String.valueOf(promoId), String.valueOf(newStock));
+            System.out.println(promoId + "--------------->" + newStock);
             // 修改库存
             PromoNewStock promoNewStock = new PromoNewStock();
             promoNewStock.setPromoId(promoId);
-            promoNewStock.setNewStock(stock-amount);
+            promoNewStock.setNewStock(newStock);
             try {
                 MQProducerForStock.sendMessage(promoNewStock);
             } catch (MQClientException e) {
