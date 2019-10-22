@@ -6,10 +6,7 @@ import com.stylefeng.guns.rest.promo.PromoService;
 import com.stylefeng.guns.rest.promo.vo.PromoOrderVo;
 import com.stylefeng.guns.rest.promo.vo.PromoRespVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,10 +23,15 @@ public class PromoController {
         return promoService.getPromoList(cinemaId);
     }
 
-    @RequestMapping("/createOrder")
+    @PostMapping("/createOrder")
     public PromoRespVo createPromoOrder(@RequestBody PromoOrderVo promoOrderVo, HttpServletRequest request) {
         int userId = jwtTokenUtil.parseToken(request);
         return promoService.createPromoOrder(promoOrderVo,userId);
 
     }
+
+/*    @RequestMapping("/publishPromoStock")
+    public PromoRespVo publishPromoStock(Integer cinemaId){
+
+    }*/
 }

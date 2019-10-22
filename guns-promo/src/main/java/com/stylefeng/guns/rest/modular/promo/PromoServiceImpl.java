@@ -13,6 +13,7 @@ import com.stylefeng.guns.rest.common.persistence.model.PromoData;
 import com.stylefeng.guns.rest.common.persistence.model.PromoOrderRespData;
 import com.stylefeng.guns.rest.promo.PromoService;
 import com.stylefeng.guns.rest.promo.vo.PromoRespVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +22,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
-
+@Slf4j
 @Component
 @Service(interfaceClass = PromoService.class)
 public class PromoServiceImpl implements PromoService {
