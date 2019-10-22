@@ -20,7 +20,7 @@ public class GunsRestApplicationTests {
 		PromoOrderVo promoOrderVo = new PromoOrderVo();
 		promoOrderVo.setPromoId(1);
 		promoOrderVo.setAmount(2);
-		promoService.createPromoOrder(promoOrderVo, 1);
+//		promoService.createPromoOrder(promoOrderVo, 1);
 	}
 
 }

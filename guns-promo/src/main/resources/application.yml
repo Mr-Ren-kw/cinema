@@ -30,6 +30,13 @@ spring:
       password: 123456
       filters: log4j,wall,mergeStat
 
+mq:
+  name-server:
+    address: 127.0.0.1:9876
+  topic: promo_topic
+  producer-group: promo_producer
+  consumer-group: promo_consumer
+
 logging:
   level.root: info
   level.com.stylefeng: debug

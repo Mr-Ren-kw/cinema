@@ -12,7 +12,7 @@
       select stock from mtime_promo_stock where promo_id = #{promoId}
   </select>
   <update id="updateStockByPromoId">
-      update mtime_promo_stock set stock = #{newStock} where promo_id = #{promoId}
+      update mtime_promo_stock set stock = stock - #{amount} where stock >= #{amount} and promo_id = #{promoId}
   </update>
 
 </mapper>

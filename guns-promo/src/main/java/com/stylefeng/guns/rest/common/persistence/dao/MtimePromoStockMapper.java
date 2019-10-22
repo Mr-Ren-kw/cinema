@@ -16,5 +16,5 @@ public interface MtimePromoStockMapper extends BaseMapper<MtimePromoStock> {
     // 根据promoId查询stock
     Integer selectStockByPromoId(@Param("promoId") int promoId);
     // 根据promoId修改库存
-    int updateStockByPromoId(@Param("promoId") int promoId,@Param("newStock") int newStock);
+    int updateStockByPromoId(@Param("promoId") int promoId,@Param("amount") int amount);
 }
