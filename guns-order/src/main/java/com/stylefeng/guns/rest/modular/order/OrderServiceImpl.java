@@ -161,7 +161,7 @@ public class OrderServiceImpl implements OrderService {
         }
         int size = soldSeats.size();
         if (size == 1) {
-            return soldSeats.get(1);
+            return soldSeats.get(0);
         }
         StringBuffer stringBuffer = new StringBuffer();
 
@@ -236,6 +236,7 @@ public class OrderServiceImpl implements OrderService {
             orderInfo.setCinemaName(cinemaName);
             orderInfo.setSeatsName(order.getSeatsName());
             orderInfo.setOrderPrice(order.getOrderPrice().toString());
+            orderInfo.setOrderTimestamp(order.getOrderTime().getTime()/1000+"");
             Integer status = order.getOrderStatus();
             switch(status) {
                 case 0: orderInfo.setOrderStatus("待支付");

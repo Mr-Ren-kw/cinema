@@ -14,4 +14,5 @@ public class OrderInfo implements Serializable {
     private String seatsName;
     private String orderPrice;
     private String orderStatus;
+    private String orderTimestamp;
 }

@@ -83,6 +83,8 @@ public class PromoServiceImpl implements PromoService {
         }
         PromoRespVo<List<PromoData>> listPromoRespVo = new PromoRespVo<>();
         listPromoRespVo.setData(promoDataList);
+        listPromoRespVo.setStatus(0);
+        listPromoRespVo.setMsg("成功");
         return listPromoRespVo;
     }
 
@@ -241,6 +243,10 @@ public class PromoServiceImpl implements PromoService {
     private boolean decreaseRedisStock(int promoId, int amount) {
         String key = CachePromoPrefix.PROMO_STOCK_CACHE_PREFIX + promoId;
         Long result = jedis.decrBy(key, amount);
+        if (result == 0) {
+            jedis.set(CachePromoPrefix.PROMO_STOCK_EMPTY_PREFIX + promoId, "empty");
+            log.info("秒杀活动已发完！promoId:{}", promoId);
+        }
         if (result < 0) {
             log.info("库存不足！promoId:{}", promoId);
             jedis.incrBy(key, amount);

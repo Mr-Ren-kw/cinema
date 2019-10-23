@@ -90,7 +90,9 @@ public class UserController {
                 return new BaseRespVo("用户信息修改失败", 1);
             }
             UserInfoVO userInfoVO = userService.updateUserInfo(userInfo);
-            return new BaseRespVo(userInfoVO, 0);
+            BaseRespVo baseRespVo = new BaseRespVo(userInfoVO, 0);
+            baseRespVo.setMsg("修改成功");
+            return baseRespVo;
         } catch (Exception e) {
             e.printStackTrace();
             return new BaseRespVo("系统出现异常，请联系管理员", 999);

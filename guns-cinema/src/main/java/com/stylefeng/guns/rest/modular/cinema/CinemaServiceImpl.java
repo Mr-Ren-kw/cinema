@@ -135,10 +135,11 @@ public class CinemaServiceImpl implements CinemaService {
         // 查询field表获取hallId
         int hallId = fieldTMapper.selectHallIdByFieldId(fieldId);
         // 先查询redis，如果查不到再去查json文件读取座位信息
-        String seatMsg = jedis.get(String.valueOf(hallId));
-        if (seatMsg != null) {
-            return seatMsg;
-        }
+//        String seatMsg = jedis.get(String.valueOf(hallId));
+//        if (seatMsg != null) {
+//            return seatMsg;
+//        }
+        String seatMsg = null;
         // 通过hallId获取json文件的地址
         String seatAddress = hallDictTMapper.getSeatAddressById(hallId);
         // 通过地址找到对应的json文件来读取
