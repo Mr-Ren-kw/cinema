@@ -272,4 +272,18 @@ public class CinemaServiceImpl implements CinemaService {
         MtimeFieldT mtimeFieldT = fieldTMapper.selectById(fieldId);
         return mtimeFieldT.getBeginTime();
     }
+
+    @Override
+    public String getCinemaAddressById(Integer cinemaId) {
+        MtimeCinemaT mtimeCinemaT = cinemaTMapper.selectById(cinemaId);
+        return mtimeCinemaT.getCinemaAddress();
+    }
+
+    @Override
+    public String getImgAddressById(Integer cinemaId) {
+        MtimeCinemaT mtimeCinemaT = cinemaTMapper.selectById(cinemaId);
+        return mtimeCinemaT.getImgAddress();
+    }
+
+
 }

@@ -33,7 +33,11 @@ public enum GunsExceptionEnum implements ServiceExceptionEnum {
     /**
      * token过期
      */
-    TOKEN_EXPIRE(1, "请重新登录");
+    TOKEN_EXPIRE(700, "请重新登录"),
+
+    STOCK_LOG_INIT_ERROR(400, "库存流水异常"),
+
+    DATABASE_ERROR(400, "数据库异常");
 
     GunsExceptionEnum(int code, String message) {
         this.code = code;

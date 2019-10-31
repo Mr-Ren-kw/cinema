@@ -26,4 +26,8 @@ public interface CinemaService {
     String getNameById(Integer cinemaId);
 
     String getFieldTimeById(Integer fieldId);
+
+    String getCinemaAddressById(Integer cinemaId);
+
+    String getImgAddressById(Integer cinemaId);
 }

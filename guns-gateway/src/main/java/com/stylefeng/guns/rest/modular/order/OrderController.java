@@ -24,6 +24,7 @@ public class OrderController {
 
     @Autowired
     Jedis jedis;
+
     @RequestMapping("/buyTickets")
     public OrderRespVo buyTickets(BuyTicketsVo buyTicketsVo, HttpServletRequest request) {
         int userId = jwtTokenUtil.parseToken(request);

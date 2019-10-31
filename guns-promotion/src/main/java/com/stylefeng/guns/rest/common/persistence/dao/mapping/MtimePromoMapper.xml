@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.rest.common.persistence.dao.MtimePromoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.guns.rest.common.persistence.model.MtimePromo">
+        <id column="uuid" property="uuid" />
+        <result column="cinema_id" property="cinemaId" />
+        <result column="price" property="price" />
+        <result column="start_time" property="startTime" />
+        <result column="end_time" property="endTime" />
+        <result column="status" property="status" />
+        <result column="description" property="description" />
+    </resultMap>
+
+    <resultMap id="PromoMap" type="com.stylefeng.guns.rest.promo.vo.PromoVO">
+        <id column="uuid" property="uuid" />
+        <result column="cinema_id" property="cinemaId" />
+        <result column="price" property="price" />
+        <result column="start_time" property="startTime" />
+        <result column="end_time" property="endTime" />
+        <result column="status" property="status" />
+        <result column="description" property="description" />
+        <result column="stock" property="stock" />
+        <result column="cinema_name" property="cinemaName" />
+        <result column="cinema_address" property="cinemaAddress" />
+        <result column="img_address" property="imgAddress" />
+    </resultMap>
+
+    <select id="queryAllPromos" resultMap="BaseResultMap">
+        select `uuid`, cinema_id, price, start_time, end_time, status, description from mtime_promo
+        where NOW() > start_time and end_time > now() and status = 1
+    </select>
+    <select id="queryPromosByCid" resultMap="BaseResultMap">
+        select `uuid`, cinema_id, price, start_time, end_time, status, description from mtime_promo
+        where NOW() > start_time and end_time > now() and status = 1 and cinameId = #{cid}
+    </select>
+    <select id="queryPromoByCidStatus" resultMap="PromoMap">
+        select mp.uuid, cinema_id, price, start_time, end_time, status, description, stock from mtime_promo mp inner join mtime_promo_stock mps
+        on mp.uuid = mps.promo_id
+        where status = #{status}
+            <if test="cid != null">
+                and cinema_id = #{cid}
+            </if>
+    </select>
+
+</mapper>

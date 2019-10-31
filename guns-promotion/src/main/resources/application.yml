@@ -1,9 +1,6 @@
 rest:
-  auth-open: true #jwt鉴权机制是否开启(true或者false)
-  sign-open: true #签名机制是否开启(true或false)
-
-redis:
-  expiration: 25200 #redis中token的过期时间为7小时
+  auth-open: false #jwt鉴权机制是否开启(true或者false)
+  sign-open: false #签名机制是否开启(true或false)
 
 jwt:
   header: Authorization   #http请求头所需要的字段
@@ -11,22 +8,22 @@ jwt:
   expiration: 604800      #7天 单位:秒
   auth-path: auth         #认证请求的路径
   md5-key: randomKey      #md5加密混淆key
-  ignore-urls:
-    - /auth
-    - /film/getIndex
-    - /film/getConditionList
-    - /film/getFilms
-    - /film/films
-    - /cinema/getCinemas
-    - /cinema/getCondition
-    - /cinema/getFields
-    - /cinema/getFieldInfo
-    - /user/register
-    - /user/check
-    - /user/logout
-    - /promo/getPromo
+
+redis:
+  expiration: 3600 # 库存过期时间一个小时
+  prefix: stock_ # key = 'stock' + promoId
+  log: log # prefix + log 判断是否访问过publishPromoStock这个接口，如果更新了某个库存，删除这个ｌｏｇ
+  token-factor: 5 # token令牌的数量为stock * tokenFactor
+rocketmq:
+  host: localhost:9876
+  topic: stock
+  tag: my_tag
+  consumer-group: consumer_group
+  producer-group: producer_group
+  transaction-group: transaction_group
+
 server:
-  port: 8070 #项目端口
+  port: 8085 #项目端口
 
 mybatis-plus:
   mapper-locations: classpath*:com/stylefeng/guns/rest/**/mapping/*.xml
@@ -44,17 +41,21 @@ mybatis-plus:
 
 spring:
   application:
-    name: guns-gateway
+    name: guns-promotion
   dubbo:
+    protocol:
+      name: dubbo
+      port: 20884
+    server: true
     registry: zookeeper://localhost:2181
   datasource:
-      url: jdbc:mysql://127.0.0.1:3306/guns_rest?autoReconnect=true&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
-      username: root
-      password: 123456
-      filters: log4j,wall,mergeStat
+    url: jdbc:mysql://127.0.0.1:3306/guns_rest?autoReconnect=true&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
+    username: root
+    password: 123456
+    filters: log4j,wall,mergeStat
 
 logging:
   level.root: info
   level.com.stylefeng: debug
   path: logs/
-  file: guns-gateway.log
+  file: guns-promotion.log
